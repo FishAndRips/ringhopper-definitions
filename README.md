@@ -5,7 +5,7 @@ these definitions in your own projects.
 
 ## Rust crate
 
-This provides the JSON definitions in a parsed manner.
+This provides the JSON definitions in an already-parsed manner for Rust crates.
 
 ## Structure of the json folder
 
