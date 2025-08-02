@@ -1,18 +1,20 @@
-use std::collections::HashMap;
-use std::fmt::{Display, Formatter};
+use alloc::string::String;
+use alloc::collections::BTreeMap;
+use alloc::vec::Vec;
+
 use serde_json::Value;
 
 /// Contains all definitions.
 #[derive(Default)]
 pub struct ParsedDefinitions {
     /// Describes all definitions for structs, enums, and bitfields.
-    pub objects: HashMap<String, NamedObject>,
+    pub objects: BTreeMap<String, NamedObject>,
 
     /// Describes all definitions for tag groups.
-    pub groups: HashMap<String, TagGroup>,
+    pub groups: BTreeMap<String, TagGroup>,
 
     /// Describes all definitions for engines.
-    pub engines: HashMap<String, Engine>
+    pub engines: BTreeMap<String, Engine>
 }
 
 /// Allows you to query the size of an object.
@@ -112,7 +114,7 @@ impl Struct {
 }
 
 /// Describes a limit for something for a given field.
-#[derive(PartialEq, Eq, Hash, Clone)]
+#[derive(PartialEq, Eq, Hash, Clone, PartialOrd, Ord)]
 pub enum LimitType {
     /// Maximum allowed by the engine
     Engine(String),
@@ -146,7 +148,7 @@ pub struct StructField {
     pub maximum: Option<StaticValue>,
 
     /// Limits
-    pub limit: Option<HashMap<LimitType, usize>>,
+    pub limit: Option<BTreeMap<LimitType, usize>>,
 
     /// Flags
     pub flags: Flags,
@@ -245,8 +247,8 @@ pub enum StaticValue {
     String(String)
 }
 
-impl Display for StaticValue {
-    fn fmt(&self, fmt: &mut Formatter<'_>) -> std::fmt::Result {
+impl core::fmt::Display for StaticValue {
+    fn fmt(&self, fmt: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
             StaticValue::String(s) => fmt.write_fmt(format_args!("\"{s}\"")),
             StaticValue::Uint(i) => fmt.write_fmt(format_args!("{i}")),

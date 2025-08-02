@@ -1,12 +1,14 @@
 //! General-use definitions parsing library.
 //!
 //! This can be used for writing parsers for tags.
-
+#![no_std]
 #![deny(missing_docs)]
 
+extern crate alloc;
 extern crate serde_json;
 
 mod types;
+
 pub use types::*;
 
 /// Load all built-in definitions.

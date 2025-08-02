@@ -1,4 +1,10 @@
-use std::collections::VecDeque;
+use alloc::collections::*;
+use alloc::string::String;
+use alloc::vec::Vec;
+use alloc::borrow::ToOwned;
+use alloc::vec;
+use alloc::format;
+use alloc::string::ToString;
 
 use super::*;
 use serde_json::*;
@@ -44,7 +50,7 @@ macro_rules! oget_size {
 }
 
 /// Recursively resolve parent groups (e.g. object -> [unit, device, etc.] -> [biped, vehicle, device_machine, etc.])
-fn get_all_child_groups(parent: &String, groups: &HashMap<String, TagGroup>) -> Vec<String> {
+fn get_all_child_groups(parent: &String, groups: &BTreeMap<String, TagGroup>) -> Vec<String> {
     if parent == "*" {
         return groups.keys().map(|f| f.to_owned()).collect()
     }
@@ -66,7 +72,7 @@ fn get_all_child_groups(parent: &String, groups: &HashMap<String, TagGroup>) -> 
 
 impl ParsedDefinitions {
     pub(crate) fn load_from_json(&mut self, objects: &Vec<Map<String, Value>>) {
-        let mut all_engines = HashMap::<String, Map<String, Value>>::new();
+        let mut all_engines = BTreeMap::<String, Map<String, Value>>::new();
 
         for object in objects {
             let object_type = oget_str!(object, "type");
@@ -99,7 +105,7 @@ impl ParsedDefinitions {
 
         for (engine_name, engine) in &all_engines {
             // Values are ("engine::value", value)
-            fn get_chain(what: &str, engine_name: &str, all_engines: &HashMap<String, Map<String, Value>>) -> Vec<(String, Value)> {
+            fn get_chain(what: &str, engine_name: &str, all_engines: &BTreeMap<String, Map<String, Value>>) -> Vec<(String, Value)> {
                 let mut v: Vec<(String, Value)> = Vec::new();
                 let engine = all_engines.get(engine_name).unwrap_or_else(|| panic!("can't find engine {engine_name}"));
                 if let Some(n) = engine.get(what) {
@@ -452,7 +458,7 @@ impl ParsedDefinitions {
 }
 
 pub(crate) fn get_all_definitions() -> Vec<Map<String, Value>> {
-    let mut jsons: HashMap<&'static str, &'static [u8]> = HashMap::new();
+    let mut jsons: BTreeMap<&'static str, &'static [u8]> = BTreeMap::new();
 
     jsons.insert("tag/actor_variant.json", include_bytes!("../../json/tag/actor_variant.json"));
     jsons.insert("tag/actor.json", include_bytes!("../../json/tag/actor.json"));
@@ -707,7 +713,7 @@ impl LoadFromSerdeJSON for StructField {
         let limit = object.get("limit").map(|l| {
             match l {
                 Value::Number(n) => {
-                    let mut map = HashMap::new();
+                    let mut map = BTreeMap::new();
                     let limit = n.as_u64().unwrap_or_else(|| panic!("{name}::limit is not u64")) as usize;
                     map.insert(LimitType::Editor, limit);
                     map.insert(LimitType::Default, limit);
@@ -715,7 +721,7 @@ impl LoadFromSerdeJSON for StructField {
                 },
 
                 Value::Object(o) => {
-                    let mut map = HashMap::new();
+                    let mut map = BTreeMap::new();
 
                     let mut editor_limit: Option<usize> = None;
                     let mut default_limit: Option<usize> = None;
