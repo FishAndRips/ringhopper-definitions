@@ -29,11 +29,11 @@
             },
             {
                 "name": "color",
-                "type": "ColorARGBFloat"
+                "type": "ColorARGB"
             },
             {
                 "name": "lod color",
-                "type": "ColorARGBFloat"
+                "type": "ColorARGB"
             },
             {
                 "type": "pad",

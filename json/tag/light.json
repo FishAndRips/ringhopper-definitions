@@ -21,7 +21,7 @@
             },
             {
                 "name": "color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "type": "pad",
@@ -162,7 +162,7 @@
             },
             {
                 "name": "color",
-                "type": "ColorARGBFloat",
+                "type": "ColorARGB",
                 "bounds": true
             },
             {

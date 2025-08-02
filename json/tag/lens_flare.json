@@ -130,11 +130,11 @@
             },
             {
                 "name": "tint color",
-                "type": "ColorARGBFloat"
+                "type": "ColorARGB"
             },
             {
                 "name": "color",
-                "type": "ColorARGBFloat",
+                "type": "ColorARGB",
                 "bounds": true
             },
             {

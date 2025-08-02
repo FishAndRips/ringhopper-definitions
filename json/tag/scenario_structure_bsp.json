@@ -246,7 +246,7 @@
             },
             {
                 "name": "ambient color",
-                "type": "ColorRGBFloat",
+                "type": "ColorRGB",
                 "read_only": false
             },
             {
@@ -260,7 +260,7 @@
             {
                 "name": "distant light 0 color",
                 "read_only": false,
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "distant light 0 direction",
@@ -270,7 +270,7 @@
             {
                 "name": "distant light 1 color",
                 "read_only": false,
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "distant light 1 direction",
@@ -284,7 +284,7 @@
             {
                 "name": "reflection tint",
                 "read_only": false,
-                "type": "ColorARGBFloat"
+                "type": "ColorARGB"
             },
             {
                 "name": "shadow vector",
@@ -294,7 +294,7 @@
             {
                 "name": "shadow color",
                 "read_only": false,
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "plane",
@@ -1271,7 +1271,7 @@
             {
                 "name": "default ambient color",
                 "read_only": false,
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "type": "pad",
@@ -1280,7 +1280,7 @@
             {
                 "name": "default distant light 0 color",
                 "read_only": false,
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "default distant light 0 direction",
@@ -1290,7 +1290,7 @@
             {
                 "name": "default distant light 1 color",
                 "read_only": false,
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "default distant light 1 direction",
@@ -1304,7 +1304,7 @@
             {
                 "name": "default reflection tint",
                 "read_only": false,
-                "type": "ColorARGBFloat"
+                "type": "ColorARGB"
             },
             {
                 "name": "default shadow vector",
@@ -1314,7 +1314,7 @@
             {
                 "name": "default shadow color",
                 "read_only": false,
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "type": "pad",

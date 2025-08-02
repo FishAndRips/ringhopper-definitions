@@ -51,7 +51,7 @@
             },
             {
                 "name": "tint",
-                "type": "ColorARGBFloat"
+                "type": "ColorARGB"
             },
             {
                 "type": "pad",

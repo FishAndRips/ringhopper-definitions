@@ -158,12 +158,12 @@
             {
                 "name": "color bound",
                 "bounds": true,
-                "type": "ColorARGBFloat"
+                "type": "ColorARGB"
             },
             {
                 "name": "scale color",
                 "bounds": true,
-                "type": "ColorARGBFloat"
+                "type": "ColorARGB"
             },
             {
                 "name": "color rate of change",

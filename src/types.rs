@@ -888,31 +888,31 @@ pub enum FieldObject {
     /// Can be represented like this:
     ///
     /// ```
-    /// struct ColorRGBFloat {
+    /// struct ColorRGB {
     ///     r: f32,
     ///     g: f32,
     ///     b: f32,
     /// }
     /// ```
-    ColorRGBFloat,
+    ColorRGB,
 
     /// Describes a color with alpha.
     ///
     /// Can be represented like this:
     ///
     /// ```
-    /// struct ColorARGBFloat {
+    /// struct ColorARGB {
     ///     a: f32,
-    ///     rgb: ColorRGBFloat
+    ///     rgb: ColorRGB
     /// }
-    /// struct ColorRGBFloat { r: f32, g: f32, b: f32 }
+    /// struct ColorRGB { r: f32, g: f32, b: f32 }
     /// ```
-    ColorARGBFloat,
+    ColorARGB,
 
-    /// Describes a color packed into an int.
+    /// Describes an A8R8G8B8 color packed into an int.
     ///
     /// This is represented as `0xAARRGGBB`.
-    ColorARGBInt,
+    Pixel32,
 
     /// Describes a null-terminated 31 character string.
     String32,
@@ -934,7 +934,7 @@ impl FieldObject {
             | Self::U32
             | Self::Address
             | Self::I32
-            | Self::ColorARGBInt
+            | Self::Pixel32
             | Self::ID
             | Self::TagID
             | Self::CompressedVector2D
@@ -950,10 +950,10 @@ impl FieldObject {
             | Self::Plane3D
             | Self::Quaternion
             | Self::Matrix3x3
-            | Self::ColorRGBFloat
+            | Self::ColorRGB
             | Self::Euler2D
             | Self::Euler3D
-            | Self::ColorARGBFloat => FieldObject::F32.primitive_size() * self.composite_count(),
+            | Self::ColorARGB => FieldObject::F32.primitive_size() * self.composite_count(),
             Self::String32 => 32,
 
             Self::NamedObject(_) => unreachable!()
@@ -968,7 +968,7 @@ impl FieldObject {
             Self::Data | Self::FileData | Self::BSPVertexData | Self::UTF16String => 1,
             Self::TagID | Self::ID => 1,
             Self::TagGroup => 1,
-            Self::F32 | Self::Angle | Self::U32 | Self::Address | Self::I32 | Self::ColorARGBInt | Self::CompressedVector2D | Self::CompressedVector3D | Self::CompressedFloat => 1,
+            Self::F32 | Self::Angle | Self::U32 | Self::Address | Self::I32 | Self::Pixel32 | Self::CompressedVector2D | Self::CompressedVector3D | Self::CompressedFloat => 1,
             Self::U16 | Self::I16 | Self::Index => 1,
             Self::U8 | Self::I8 => 1,
             Self::Rectangle => 4,
@@ -981,8 +981,8 @@ impl FieldObject {
             Self::Quaternion => 4,
             Self::Vector2DInt => 2,
             Self::Matrix3x3 => 3 * 3,
-            Self::ColorRGBFloat => 3,
-            Self::ColorARGBFloat => 4,
+            Self::ColorRGB => 3,
+            Self::ColorARGB => 4,
             Self::String32 => 1,
             Self::ScenarioScriptNodeValue => 1,
         }
@@ -1011,7 +1011,7 @@ impl FieldObject {
             | Self::U16
             | Self::Index
             | Self::U32
-            | Self::ColorARGBInt
+            | Self::Pixel32
             | Self::Reflexive(_) => Some(StaticValue::Uint(0)),
 
             Self::I8
@@ -1030,8 +1030,8 @@ impl FieldObject {
             | Self::Euler3D
             | Self::Quaternion
             | Self::Matrix3x3
-            | Self::ColorRGBFloat
-            | Self::ColorARGBFloat => Some(StaticValue::Float(0.0)),
+            | Self::ColorRGB
+            | Self::ColorARGB => Some(StaticValue::Float(0.0)),
         }
     }
 }

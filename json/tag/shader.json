@@ -131,11 +131,11 @@
             },
             {
                 "name": "color of emitted light",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "tint color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             }
         ],
         "size": 32,
@@ -153,7 +153,7 @@
             },
             {
                 "name": "perpendicular tint color",
-                "type": "ColorRGBFloat",
+                "type": "ColorRGB",
                 "comment": "specular tint when the surface is directly facing the camera"
             },
             {
@@ -165,7 +165,7 @@
             },
             {
                 "name": "parallel tint color",
-                "type": "ColorRGBFloat",
+                "type": "ColorRGB",
                 "comment": "specular tint when the surface is facing 90\u00b0 from the camera"
             }
         ],

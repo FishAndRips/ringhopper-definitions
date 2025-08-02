@@ -659,7 +659,7 @@
             },
             {
                 "name": "text color",
-                "type": "ColorARGBFloat"
+                "type": "ColorARGB"
             },
             {
                 "name": "justification",

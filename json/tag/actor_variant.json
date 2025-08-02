@@ -65,7 +65,7 @@
         "fields": [
             {
                 "name": "color",
-                "type": "ColorRGBFloat",
+                "type": "ColorRGB",
                 "bounds": true
             },
             {

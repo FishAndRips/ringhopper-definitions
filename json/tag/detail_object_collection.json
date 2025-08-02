@@ -80,15 +80,15 @@
             },
             {
                 "name": "minimum color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "maximum color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "ambient color",
-                "type": "ColorARGBInt"
+                "type": "Pixel32"
             },
             {
                 "type": "pad",

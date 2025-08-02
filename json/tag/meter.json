@@ -79,11 +79,11 @@
             },
             {
                 "name": "empty color",
-                "type": "ColorARGBFloat"
+                "type": "ColorARGB"
             },
             {
                 "name": "full color",
-                "type": "ColorARGBFloat"
+                "type": "ColorARGB"
             },
             {
                 "type": "pad",

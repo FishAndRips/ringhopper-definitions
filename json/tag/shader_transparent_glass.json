@@ -43,7 +43,7 @@
         "fields": [
             {
                 "name": "background tint color",
-                "type": "ColorRGBFloat",
+                "type": "ColorRGB",
                 "default": [
                     1.0,
                     1.0,

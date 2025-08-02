@@ -332,7 +332,7 @@
             },
             {
                 "name": "tint",
-                "type": "ColorARGBFloat",
+                "type": "ColorARGB",
                 "bounds": true
             },
             {

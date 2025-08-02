@@ -55,12 +55,12 @@
             },
             {
                 "name": "tint color hither",
-                "type": "ColorARGBFloat",
+                "type": "ColorARGB",
                 "compound": true
             },
             {
                 "name": "tint color yon",
-                "type": "ColorARGBFloat",
+                "type": "ColorARGB",
                 "compound": true
             },
             {

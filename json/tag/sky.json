@@ -78,7 +78,7 @@
             },
             {
                 "name": "color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "power",
@@ -132,7 +132,7 @@
         "fields": [
             {
                 "name": "color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "type": "pad",
@@ -164,7 +164,7 @@
         "fields": [
             {
                 "name": "color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "power",

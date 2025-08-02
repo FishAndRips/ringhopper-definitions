@@ -843,7 +843,7 @@
             },
             {
                 "name": "tint color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "hyper stealth refraction",
@@ -855,7 +855,7 @@
             },
             {
                 "name": "hyper stealth tint color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "distance attenuation 2d",
@@ -1446,7 +1446,7 @@
             },
             {
                 "name": "tint",
-                "type": "ColorARGBFloat",
+                "type": "ColorARGB",
                 "bounds": true
             },
             {

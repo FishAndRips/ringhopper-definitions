@@ -137,19 +137,19 @@
         "fields": [
             {
                 "name": "overcharge minimum color",
-                "type": "ColorARGBInt"
+                "type": "Pixel32"
             },
             {
                 "name": "overcharge maximum color",
-                "type": "ColorARGBInt"
+                "type": "Pixel32"
             },
             {
                 "name": "overcharge flash color",
-                "type": "ColorARGBInt"
+                "type": "Pixel32"
             },
             {
                 "name": "overcharge empty color",
-                "type": "ColorARGBInt"
+                "type": "Pixel32"
             },
             {
                 "type": "pad",
@@ -165,7 +165,7 @@
         "fields": [
             {
                 "name": "medium health left color",
-                "type": "ColorARGBInt"
+                "type": "Pixel32"
             },
             {
                 "name": "max color health fraction cutoff",

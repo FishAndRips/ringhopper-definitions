@@ -534,7 +534,7 @@
             },
             {
                 "name": "effect tint",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "type": "pad",

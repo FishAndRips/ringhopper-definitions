@@ -24,7 +24,7 @@
             },
             {
                 "name": "override icon color",
-                "type": "ColorARGBInt"
+                "type": "Pixel32"
             },
             {
                 "name": "frame rate",
@@ -124,7 +124,7 @@
             },
             {
                 "name": "color",
-                "type": "ColorARGBInt"
+                "type": "Pixel32"
             },
             {
                 "name": "opacity",
@@ -212,11 +212,11 @@
             },
             {
                 "name": "icon color",
-                "type": "ColorARGBFloat"
+                "type": "ColorARGB"
             },
             {
                 "name": "text color",
-                "type": "ColorARGBFloat"
+                "type": "ColorARGB"
             },
             {
                 "name": "text spacing",
@@ -364,7 +364,7 @@
             },
             {
                 "name": "color",
-                "type": "ColorARGBInt"
+                "type": "Pixel32"
             },
             {
                 "type": "pad",

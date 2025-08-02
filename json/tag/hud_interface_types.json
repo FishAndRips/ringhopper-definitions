@@ -109,19 +109,19 @@
             },
             {
                 "name": "color at meter minimum",
-                "type": "ColorARGBInt"
+                "type": "Pixel32"
             },
             {
                 "name": "color at meter maximum",
-                "type": "ColorARGBInt"
+                "type": "Pixel32"
             },
             {
                 "name": "flash color",
-                "type": "ColorARGBInt"
+                "type": "Pixel32"
             },
             {
                 "name": "empty color",
-                "type": "ColorARGBInt"
+                "type": "Pixel32"
             },
             {
                 "heading": "Flags",
@@ -165,7 +165,7 @@
             },
             {
                 "name": "disabled color",
-                "type": "ColorARGBInt"
+                "type": "Pixel32"
             },
             {
                 "name": "min alpha",
@@ -189,11 +189,11 @@
         "fields": [
             {
                 "name": "default color",
-                "type": "ColorARGBInt"
+                "type": "Pixel32"
             },
             {
                 "name": "flashing color",
-                "type": "ColorARGBInt"
+                "type": "Pixel32"
             },
             {
                 "name": "flash period",
@@ -217,7 +217,7 @@
             },
             {
                 "name": "disabled color",
-                "type": "ColorARGBInt"
+                "type": "Pixel32"
             }
         ],
         "size": 28,
@@ -279,7 +279,7 @@
             },
             {
                 "name": "override icon color",
-                "type": "ColorARGBInt"
+                "type": "Pixel32"
             },
             {
                 "name": "frame rate",
@@ -524,7 +524,7 @@
             },
             {
                 "name": "tint",
-                "type": "ColorRGBFloat",
+                "type": "ColorRGB",
                 "bounds": true
             },
             {

@@ -109,7 +109,7 @@
             },
             {
                 "name": "animation color",
-                "type": "ColorRGBFloat",
+                "type": "ColorRGB",
                 "bounds": true
             },
             {

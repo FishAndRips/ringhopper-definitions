@@ -46,23 +46,23 @@
         "fields": [
             {
                 "name": "gradient min color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "gradient max color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "background color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "flash color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "meter tint color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "meter transparency",

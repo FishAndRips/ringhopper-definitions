@@ -327,12 +327,12 @@
             },
             {
                 "name": "color0 animation",
-                "type": "ColorARGBFloat",
+                "type": "ColorARGB",
                 "bounds": true
             },
             {
                 "name": "color1",
-                "type": "ColorARGBFloat"
+                "type": "ColorARGB"
             },
             {
                 "name": "input a",

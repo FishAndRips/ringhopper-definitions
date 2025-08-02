@@ -73,7 +73,7 @@
             },
             {
                 "name": "color",
-                "type": "ColorRGBFloat",
+                "type": "ColorRGB",
                 "bounds": true,
                 "default": [
                     1.0,

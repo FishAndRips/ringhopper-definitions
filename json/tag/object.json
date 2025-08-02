@@ -313,7 +313,7 @@
             },
             {
                 "name": "color",
-                "type": "ColorRGBFloat",
+                "type": "ColorRGB",
                 "bounds": true
             }
         ],
@@ -337,7 +337,7 @@
             },
             {
                 "name": "color",
-                "type": "ColorRGBFloat",
+                "type": "ColorRGB",
                 "bounds": true
             },
             {

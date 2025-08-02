@@ -96,7 +96,7 @@
             },
             {
                 "name": "color",
-                "type": "ColorARGBFloat",
+                "type": "ColorARGB",
                 "bounds": true
             },
             {

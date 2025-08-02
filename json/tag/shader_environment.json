@@ -159,7 +159,7 @@
             },
             {
                 "name": "material color",
-                "type": "ColorRGBFloat",
+                "type": "ColorRGB",
                 "default": [
                     1.0,
                     1.0,
@@ -270,11 +270,11 @@
             },
             {
                 "name": "primary on color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "primary off color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "primary animation function",
@@ -301,11 +301,11 @@
             },
             {
                 "name": "secondary on color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "secondary off color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "secondary animation function",
@@ -332,11 +332,11 @@
             },
             {
                 "name": "plasma on color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "plasma off color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "plasma animation function",
@@ -408,12 +408,12 @@
             },
             {
                 "name": "perpendicular color",
-                "type": "ColorRGBFloat",
+                "type": "ColorRGB",
                 "comment": "specular tint when the surface is directly facing the camera"
             },
             {
                 "name": "parallel color",
-                "type": "ColorRGBFloat",
+                "type": "ColorRGB",
                 "comment": "specular tint when the surface is facing 90\u00b0 from the camera"
             },
             {

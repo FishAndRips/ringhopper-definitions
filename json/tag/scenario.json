@@ -1511,7 +1511,7 @@
             },
             {
                 "name": "color",
-                "type": "ColorRGBFloat"
+                "type": "ColorRGB"
             },
             {
                 "name": "intensity",
@@ -3158,11 +3158,11 @@
             },
             {
                 "name": "text color",
-                "type": "ColorARGBInt"
+                "type": "Pixel32"
             },
             {
                 "name": "shadow color",
-                "type": "ColorARGBInt"
+                "type": "Pixel32"
             },
             {
                 "name": "fade in time",
