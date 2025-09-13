@@ -805,6 +805,7 @@ impl LoadFromSerdeJSON for FieldObject {
             "Plane2D" => Self::Plane2D,
             "Plane3D" => Self::Plane3D,
             "Quaternion" => Self::Quaternion,
+            "Matrix2x3" => Self::Matrix2x3,
             "Matrix3x3" => Self::Matrix3x3,
             "ColorRGB" => Self::ColorRGB,
             "ColorARGB" => Self::ColorARGB,

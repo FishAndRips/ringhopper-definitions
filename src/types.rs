@@ -870,15 +870,29 @@ pub enum FieldObject {
     /// ```
     Quaternion,
 
+    /// Describes a 2x3 matrix (6 floats).
+    ///
+    /// Can be represented like this:
+    ///
+    /// ```
+    /// struct Matrix2x3 {
+    ///     forward: Vector3D,
+    ///     up: Vector3D
+    /// }
+    ///
+    /// struct Vector3D { x: f32, y: f32, z: f32 }
+    /// ```
+    Matrix2x3,
+
     /// Describes a 3x3 matrix (9 floats).
     ///
     /// Can be represented like this:
     ///
     /// ```
     /// struct Matrix3x3 {
-    ///     a: Vector3D,
-    ///     b: Vector3D,
-    ///     c: Vector3D
+    ///     forward: Vector3D,
+    ///     left: Vector3D,
+    ///     up: Vector3D
     /// }
     ///
     /// struct Vector3D { x: f32, y: f32, z: f32 }
@@ -951,6 +965,7 @@ impl FieldObject {
             | Self::Plane2D
             | Self::Plane3D
             | Self::Quaternion
+            | Self::Matrix2x3
             | Self::Matrix3x3
             | Self::ColorRGB
             | Self::Euler2D
@@ -982,6 +997,7 @@ impl FieldObject {
             Self::Plane3D => 4,
             Self::Quaternion => 4,
             Self::Vector2DInt => 2,
+            Self::Matrix2x3 => 2 * 3,
             Self::Matrix3x3 => 3 * 3,
             Self::ColorRGB => 3,
             Self::ColorARGB => 4,
@@ -1031,6 +1047,7 @@ impl FieldObject {
             | Self::Euler2D
             | Self::Euler3D
             | Self::Quaternion
+            | Self::Matrix2x3
             | Self::Matrix3x3
             | Self::ColorRGB
             | Self::ColorARGB => Some(StaticValue::Float(0.0)),

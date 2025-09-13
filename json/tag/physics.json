@@ -131,12 +131,8 @@
                 "type": "Vector3D"
             },
             {
-                "name": "forward",
-                "type": "Vector3D"
-            },
-            {
-                "name": "up",
-                "type": "Vector3D"
+                "name": "rotation",
+                "type": "Matrix2x3"
             },
             {
                 "name": "friction type",
