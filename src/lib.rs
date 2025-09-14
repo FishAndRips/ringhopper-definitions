@@ -19,6 +19,7 @@ static DEFINITIONS: Lazy<ParsedDefinitions> = Lazy::new(|| {
     parsed.load_from_json(&values);
     parsed.finalize_and_assert_valid();
     parsed.resolve_parent_class_references();
+    parsed.find_const_structs();
 
     parsed
 });

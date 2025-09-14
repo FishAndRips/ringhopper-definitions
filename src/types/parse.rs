@@ -455,6 +455,69 @@ impl ParsedDefinitions {
         }
         self.objects = objects_to_verify;
     }
+
+    pub(crate) fn find_const_structs(&mut self) {
+        let mut checked: BTreeMap<String, bool> = BTreeMap::new();
+
+        fn do_check<'a>(checked: &mut BTreeMap<String, bool>, field_type: &'a str, definitions: &'a ParsedDefinitions) -> bool {
+            if let Some(c) = checked.get(field_type) {
+                return *c
+            }
+
+            let Some(def) = definitions.objects.get(field_type) else {
+                panic!("Can't find field type {field_type} for find_const_structs");
+            };
+
+            // Initialize to false
+
+            match def {
+                NamedObject::Enum(_) | NamedObject::Bitfield(_) => {
+                    checked.insert(field_type.to_owned(), true);
+                    true
+                },
+                NamedObject::Struct(s) => {
+                    // In case we infinitely loop for some reason (we shouldn't, but you never know)
+                    checked.insert(field_type.to_owned(), false);
+
+                    for f in &s.fields {
+                        // Excluded fields are not counted as we do not keep track of them once loaded
+                        if f.flags.exclude {
+                            continue
+                        }
+
+                        match &f.field_type {
+                            StructFieldType::Padding(_) => continue,
+                            StructFieldType::EditorSection { .. } => continue,
+                            StructFieldType::Object(fo) => {
+                                let is_const = match fo {
+                                    FieldObject::NamedObject(n) => do_check(checked, n, definitions),
+                                    _ => fo.is_const().expect("field object is_const returned None and was not NamedObject")
+                                };
+
+                                if !is_const {
+                                    return false
+                                }
+                            }
+                        }
+                    }
+
+                    checked.insert(field_type.to_owned(), true);
+                    true
+                }
+            }
+        }
+
+        for c in self.objects.values() {
+            do_check(&mut checked, c.name(), self);
+        }
+
+        for (name, can_be_const) in checked {
+            let Some(NamedObject::Struct(s)) = self.objects.get_mut(&name) else {
+                continue
+            };
+            s.is_const = can_be_const;
+        }
+    }
 }
 
 pub(crate) fn get_all_definitions() -> Vec<Map<String, Value>> {
@@ -651,6 +714,8 @@ impl LoadFromSerdeJSON for StructField {
             StructFieldType::Object(o) => o,
             StructFieldType::Padding(_) => return Self {
                 name: String::new(),
+                name_rust_enum: String::new(),
+                name_rust_field: String::new(),
                 count: FieldCount::One,
                 default_value: None,
                 field_type,
@@ -662,6 +727,8 @@ impl LoadFromSerdeJSON for StructField {
             },
             StructFieldType::EditorSection { heading, .. } => return Self {
                 name: heading.clone(),
+                name_rust_enum: String::new(),
+                name_rust_field: String::new(),
                 count: FieldCount::One,
                 default_value: None,
                 field_type,
@@ -760,6 +827,8 @@ impl LoadFromSerdeJSON for StructField {
             default_value: get_static_values("default"),
             field_type,
             count,
+            name_rust_field: format_for_rust_fields(&name),
+            name_rust_enum: format_for_rust_enums(&name),
             name,
             relative_offset: isize::MAX as usize
         }
@@ -890,7 +959,9 @@ impl LoadFromSerdeJSON for Struct {
             }
 
             fields.push_front(StructField {
-                name: parent_snake_case,
+                name_rust_enum: parent.clone(),
+                name_rust_field: parent_snake_case,
+                name: parent.clone(),
                 count: FieldCount::One,
                 field_type: StructFieldType::Object(FieldObject::NamedObject(parent)),
                 default_value: None,
@@ -906,15 +977,19 @@ impl LoadFromSerdeJSON for Struct {
             flags,
             fields: Vec::from(fields),
             name,
-            size: oget_number!(object, "size", as_u64) as usize
+            size: oget_number!(object, "size", as_u64) as usize,
+            is_const: false
         }
     }
 }
 
 impl LoadFromSerdeJSON for Field {
     fn load_from_json(object: &Map<String, Value>) -> Self {
+        let name = oget_str!(object, "name").to_owned();
         Self {
-            name: oget_str!(object, "name").to_owned(),
+            name_rust_enum: format_for_rust_enums(&name),
+            name_rust_field: format_for_rust_fields(&name),
+            name,
             flags: Flags::load_from_json(object),
             value: 0
         }
@@ -928,6 +1003,8 @@ fn process_field_array(fields: &Vec<Value>) -> Vec<Field> {
         .map(|f| {
             let mut field = match f {
                 Value::String(name) => Field {
+                    name_rust_field: format_for_rust_fields(name),
+                    name_rust_enum: format_for_rust_enums(name),
                     name: name.to_owned(),
                     flags: Flags::default(),
                     value: 0
@@ -977,4 +1054,63 @@ impl LoadFromSerdeJSON for Enum {
             name
         }
     }
+}
+
+fn format_for_rust_enums(what: &str) -> String {
+    let mut n = String::with_capacity(what.len() + 1);
+    let mut c = what.chars().peekable();
+
+    let first = c.peek().expect("enum field with empty name");
+    if !first.is_ascii_alphabetic() {
+        n += "_";
+    }
+
+    let mut needs_caps = true;
+    for c in c {
+        if c == '\'' {
+            continue
+        }
+        else if !c.is_alphanumeric() {
+            needs_caps = true;
+            continue;
+        }
+        else if needs_caps {
+            needs_caps = false;
+            n.extend(c.to_uppercase());
+        }
+        else {
+            n.push(c);
+        }
+    }
+
+    n
+}
+
+fn format_for_rust_fields(what: &str) -> String {
+    match what {
+        "type" | "struct" | "enum" | "break" | "continue" | "loop" | "begin" | "static" => return format!("r#{what}"),
+        _ => ()
+    };
+
+    let mut n = String::with_capacity(what.len() + 1);
+    let mut c = what.chars().peekable();
+
+    let first = c.peek().expect("struct field with empty name");
+    if !first.is_ascii_alphabetic() {
+        n += "_";
+    }
+
+    for c in c {
+        if c == '\'' {
+            continue
+        }
+        else if !c.is_alphanumeric() {
+            n.push('_');
+        }
+        else {
+            n.push(c);
+        }
+    }
+
+    n
 }

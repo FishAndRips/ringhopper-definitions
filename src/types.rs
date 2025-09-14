@@ -87,6 +87,11 @@ pub struct Struct {
     /// All fields of the struct.
     pub fields: Vec<StructField>,
 
+    /// The struct does not use tag dependencies, tag references, or tag data, and generating it
+    /// in Rust can use bitwise Copy. This is assuming that all fields marked as `exclude` are
+    /// excluded, too.
+    pub is_const: bool,
+
     /// Flags for the struct, itself.
     pub flags: Flags,
 
@@ -131,6 +136,12 @@ pub enum LimitType {
 pub struct StructField {
     /// Name of the field
     pub name: String,
+
+    /// Name of the field, itself, formatted for Rust enums.
+    pub name_rust_enum: String,
+
+    /// Name of the field, itself, formatted for Rust fields.
+    pub name_rust_field: String,
 
     /// Type of field
     pub field_type: StructFieldType,
@@ -304,6 +315,12 @@ impl SizeableObject for Enum {
 pub struct Field {
     /// Name of the field, itself.
     pub name: String,
+
+    /// Name of the field, itself, formatted for Rust enums.
+    pub name_rust_enum: String,
+
+    /// Name of the field, itself, formatted for Rust fields.
+    pub name_rust_field: String,
 
     /// Flags for this specific field.
     pub flags: Flags,
@@ -1052,6 +1069,50 @@ impl FieldObject {
             | Self::ColorRGB
             | Self::ColorARGB => Some(StaticValue::Float(0.0)),
         }
+    }
+
+    const fn is_const(&self) -> Option<bool> {
+        Some(match self {
+            FieldObject::NamedObject(_) => return None,
+            FieldObject::Reflexive(_) => false,
+            FieldObject::TagReference { .. } => false,
+            FieldObject::TagGroup => true,
+            FieldObject::Data => false,
+            FieldObject::BSPVertexData => false,
+            FieldObject::UTF16String => false,
+            FieldObject::FileData => false,
+            FieldObject::F32 => true,
+            FieldObject::U8 => true,
+            FieldObject::U16 => true,
+            FieldObject::U32 => true,
+            FieldObject::I8 => true,
+            FieldObject::I16 => true,
+            FieldObject::I32 => true,
+            FieldObject::TagID => true,
+            FieldObject::ID => true,
+            FieldObject::Index => true,
+            FieldObject::Angle => true,
+            FieldObject::Address => true,
+            FieldObject::Vector2D => true,
+            FieldObject::Vector3D => true,
+            FieldObject::CompressedVector2D => true,
+            FieldObject::CompressedVector3D => true,
+            FieldObject::CompressedFloat => true,
+            FieldObject::Vector2DInt => true,
+            FieldObject::Plane2D => true,
+            FieldObject::Plane3D => true,
+            FieldObject::Euler2D => true,
+            FieldObject::Euler3D => true,
+            FieldObject::Rectangle => true,
+            FieldObject::Quaternion => true,
+            FieldObject::Matrix2x3 => true,
+            FieldObject::Matrix3x3 => true,
+            FieldObject::ColorRGB => true,
+            FieldObject::ColorARGB => true,
+            FieldObject::Pixel32 => true,
+            FieldObject::String32 => true,
+            FieldObject::ScenarioScriptNodeValue => true,
+        })
     }
 }
 
