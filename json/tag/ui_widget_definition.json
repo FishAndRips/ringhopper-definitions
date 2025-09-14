@@ -313,7 +313,7 @@
         "name": "UIReplaceFunction",
         "options": [
             "null",
-            "widget s controller",
+            "widget's controller",
             "build number",
             "pid"
         ],
