@@ -9,10 +9,11 @@ extern crate serde_json;
 
 mod types;
 
+use spin::lazy::Lazy;
 pub use types::*;
 
 /// Load all built-in definitions.
-pub fn load_all_definitions() -> ParsedDefinitions {
+static DEFINITIONS: Lazy<ParsedDefinitions> = Lazy::new(|| {
     let values = get_all_definitions();
     let mut parsed = ParsedDefinitions::default();
     parsed.load_from_json(&values);
@@ -20,6 +21,11 @@ pub fn load_all_definitions() -> ParsedDefinitions {
     parsed.resolve_parent_class_references();
 
     parsed
+});
+
+/// Load all built-in definitions.
+pub fn load_all_definitions() -> &'static ParsedDefinitions {
+    &*DEFINITIONS
 }
 
 #[cfg(test)]
