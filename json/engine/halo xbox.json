@@ -30,23 +30,29 @@
         "required_tags": {
             "all": [
                 "globals\\globals.globals",
-                "ui\\shell\\bitmaps\\white.bitmap",
-                "ui\\multiplayer_game_text.unicode_string_list"
+                "ui\\multiplayer_game_text.unicode_string_list",
+                "ui\\shell\\bitmaps\\white.bitmap"
             ],
             "user_interface": [
-                "ui\\default_multiplayer_game_setting_names.unicode_string_list",
-                "ui\\saved_game_file_strings.unicode_string_list",
-                "ui\\multiplayer_scenarios.multiplayer_scenario_description",
-                "ui\\random_player_names.unicode_string_list",
+                "ui\\shell\\main_menu.ui_widget_collection",
                 "ui\\english.virtual_keyboard",
-                "ui\\shell\\strings\\default_player_profile_names.unicode_string_list",
+                "ui\\random_player_names.unicode_string_list",
+                "ui\\multiplayer_scenarios.multiplayer_scenario_description",
+                "ui\\saved_game_file_strings.unicode_string_list",
+                "ui\\default_multiplayer_game_setting_names.unicode_string_list",
                 "ui\\shell\\strings\\game_variant_descriptions.unicode_string_list",
-                "ui\\shell\\main_menu\\player_profiles_select\\joystick_set_short_descriptions.unicode_string_list",
-                "ui\\shell\\main_menu\\player_profiles_select\\button_set_short_descriptions.unicode_string_list",
+                "ui\\shell\\main_menu\\player_profiles_select\\difficulty_names.unicode_string_list",
+                "ui\\shell\\strings\\default_player_profile_names.unicode_string_list",
                 "ui\\shell\\main_menu\\player_profiles_select\\button_set_long_descriptions.unicode_string_list",
-                "sound\\music\\title1\\title1.sound_looping",
+                "ui\\shell\\main_menu\\player_profiles_select\\button_set_short_descriptions.unicode_string_list",
+                "ui\\shell\\main_menu\\player_profiles_select\\joystick_set_defaults_descriptions.unicode_string_list",
+                "ui\\shell\\main_menu\\player_profiles_select\\joystick_set_short_descriptions.unicode_string_list",
+                "ui\\shell\\main_menu\\player_profiles_select\\profile_description_labels.unicode_string_list",
+                "sound\\sfx\\ui\\cursor.sound",
+                "sound\\sfx\\ui\\forward.sound",
+                "sound\\sfx\\ui\\back.sound",
                 "sound\\sfx\\ui\\flag_failure.sound",
-                "sound\\sfx\\ui\\cursor.sound"
+                "sound\\music\\title1\\title1.sound_looping"
             ],
             "singleplayer": [
                 "ui\\shell\\solo.ui_widget_collection"
