@@ -182,23 +182,17 @@
                 "default": 1.0
             },
             {
-                "name": "radius modifer",
+                "name": "radius modifier",
                 "bounds": true,
-                "type": "float",
-                "default": [
-                    1.0,
-                    1.0
-                ]
+                "type": "float"
             },
             {
                 "name": "falloff angle",
-                "type": "Angle",
-                "default": 180.0
+                "type": "Angle"
             },
             {
                 "name": "cutoff angle",
-                "type": "Angle",
-                "default": 180.0
+                "type": "Angle"
             },
             {
                 "name": "lens flare only radius",
