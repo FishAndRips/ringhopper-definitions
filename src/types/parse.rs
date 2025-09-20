@@ -89,6 +89,7 @@ impl ParsedDefinitions {
                         supported_engines: SupportedEngines::load_from_json(object),
                         version: oget_number!(object, "version", as_u64).try_into().unwrap_or_else(|e| panic!("{object_name}::version can't convert to u16: {e}")),
                         fourcc_binary: oget_number!(object, "fourcc_binary", as_u64).try_into().unwrap_or_else(|e| panic!("{object_name}::fourcc_binary can't convert to u32: {e}")),
+                        name_rust_enum: format_for_rust_enums(&object_name),
                         name: object_name,
                     });
                 },
@@ -644,11 +645,6 @@ pub(crate) fn get_all_definitions() -> Vec<Map<String, Value>> {
             .collect()
 }
 
-#[test]
-fn test_load_all_definitions() {
-    crate::load_all_definitions();
-}
-
 trait LoadFromSerdeJSON {
     fn load_from_json(object: &Map<String, Value>) -> Self;
 }
@@ -1057,6 +1053,9 @@ impl LoadFromSerdeJSON for Enum {
 }
 
 fn format_for_rust_enums(what: &str) -> String {
+    // could change this to work in the future, but it'd make the code a little more complex
+    assert!(what.is_ascii(), "{what} is non-ascii; can't format rust enums");
+
     let mut n = String::with_capacity(what.len() + 1);
     let mut c = what.chars().peekable();
 
@@ -1083,17 +1082,52 @@ fn format_for_rust_enums(what: &str) -> String {
         }
     }
 
+    fn fixup_chars(find: &[&str], mut for_string: &mut str) {
+        loop {
+            let mut found: Option<(usize, &str)> = None;
+            for i in find {
+                found = for_string.find(i).map(|f| (f, *i));
+                if found.is_some() {
+                    break;
+                }
+            }
+
+            let Some((s, find)) = found else {
+                break
+            };
+
+            let start = s;
+            let end = s + find.len();
+            let (before, after) = for_string.split_at_mut(end);
+
+            before[start..end].make_ascii_uppercase();
+
+            if after.is_empty() {
+                break
+            }
+
+            // this is ASCII so this should be fine
+            after[0..1].make_ascii_uppercase();
+            for_string = after;
+        }
+    }
+
+    fixup_chars(&["Hud", "Gbx", "Ui", "Bsp", "Dxt", "Pcm", "Bc7", "Adpcm", "A1r5g5b5", "R5g6b5", "A4r4g4b4", "A8y8", "Ay8", "A8r8g8b8", "X8r8g8b8", "Ucs"], &mut n);
+
     n
 }
 
 fn format_for_rust_fields(what: &str) -> String {
-    match what {
-        "type" | "struct" | "enum" | "break" | "continue" | "loop" | "begin" | "static" => return format!("r#{what}"),
+    let what_lowercase = what.to_ascii_lowercase();
+
+    match what_lowercase.as_str() {
+        // we could use r# here, but that is not great to type...
+        "type" | "struct" | "enum" | "break" | "continue" | "loop" | "begin" | "static" => return format!("_{what_lowercase}"),
         _ => ()
     };
 
-    let mut n = String::with_capacity(what.len() + 1);
-    let mut c = what.chars().peekable();
+    let mut n = String::with_capacity(what_lowercase.len() + 1);
+    let mut c = what_lowercase.chars().peekable();
 
     let first = c.peek().expect("struct field with empty name");
     if !first.is_ascii_alphabetic() {
@@ -1113,4 +1147,13 @@ fn format_for_rust_fields(what: &str) -> String {
     }
 
     n
+}
+
+
+#[cfg(test)]
+mod test {
+    #[test]
+    fn test_load_all_definitions() {
+        crate::load_all_definitions();
+    }
 }

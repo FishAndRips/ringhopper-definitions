@@ -65,6 +65,9 @@ pub struct TagGroup {
     /// Name of the base struct for this tag group.
     pub struct_name: String,
 
+    /// Name of the tag group, itself, formatted for Rust enums.
+    pub name_rust_enum: String,
+
     /// Supergroup, if any.
     pub supergroup: Option<String>,
 
