@@ -60,15 +60,23 @@ impl NamedObject {
 /// Describes a tag group.
 pub struct TagGroup {
     /// Name of the tag group.
+    ///
+    /// This is formatted in snake_case, and it references its own object in [`ParsedDefinitions::groups`]
     pub name: String,
 
-    /// Name of the base struct for this tag group.
-    pub struct_name: String,
-
     /// Name of the tag group, itself, formatted for Rust enums.
+    ///
+    /// This is formatted in PascalCase.
     pub name_rust_enum: String,
 
+    /// Name of the base struct for this tag group.
+    ///
+    /// References an object in [`ParsedDefinitions::objects`]
+    pub struct_name: String,
+
     /// Supergroup, if any.
+    ///
+    /// References another tag group in [`ParsedDefinitions::groups`]
     pub supergroup: Option<String>,
 
     /// Engines that support this tag group.
@@ -85,6 +93,8 @@ pub struct TagGroup {
 #[derive(Clone)]
 pub struct Struct {
     /// The name of the struct.
+    ///
+    /// This is formatted in PascalCase, and it references its own object in [`ParsedDefinitions::objects`].
     pub name: String,
 
     /// All fields of the struct.
@@ -137,34 +147,40 @@ pub enum LimitType {
 /// Describes a field on a struct.
 #[derive(Clone)]
 pub struct StructField {
-    /// Name of the field
+    /// Name of the field.
+    ///
+    /// This is the display name and may include spaces.
     pub name: String,
 
     /// Name of the field, itself, formatted for Rust enums.
+    ///
+    /// This is formatted in PascalCase.
     pub name_rust_enum: String,
 
     /// Name of the field, itself, formatted for Rust fields.
+    ///
+    /// This is formatted in snake_case.
     pub name_rust_field: String,
 
-    /// Type of field
+    /// Type of field.
     pub field_type: StructFieldType,
 
     /// Is this a default value? If so, what are the default values for each field.
     pub default_value: Option<Vec<StaticValue>>,
 
-    /// Number of fields
+    /// Number of fields.
     pub count: FieldCount,
 
-    /// Minimum value
+    /// Minimum value.
     pub minimum: Option<StaticValue>,
 
-    /// Maximum value
+    /// Maximum value.
     pub maximum: Option<StaticValue>,
 
-    /// Limits
+    /// Limits.
     pub limit: Option<BTreeMap<LimitType, usize>>,
 
-    /// Flags
+    /// Flags.
     pub flags: Flags,
 
     /// Relative offset to the start of its structs.
@@ -275,13 +291,15 @@ impl core::fmt::Display for StaticValue {
 /// Describes a bitfield (a collection of booleans).
 #[derive(Clone)]
 pub struct Bitfield {
-    /// Name of the bitfield
+    /// Name of the bitfield.
+    ///
+    /// This is formatted in PascalCase, and it references its own object in [`ParsedDefinitions::objects`].
     pub name: String,
 
-    /// Width in bits
+    /// Width in bits.
     pub width: u8,
 
-    /// Fields for the bitfield
+    /// Fields for the bitfield.
     pub fields: Vec<Field>,
 
     /// Flags! Capture all of them to win!
@@ -298,6 +316,8 @@ impl SizeableObject for Bitfield {
 #[derive(Clone)]
 pub struct Enum {
     /// Name of the enum.
+    ///
+    /// This is formatted in PascalCase, and it references its own object in [`ParsedDefinitions::objects`].
     pub name: String,
 
     /// All possible values the enum can be.
@@ -316,13 +336,19 @@ impl SizeableObject for Enum {
 /// Describes a field
 #[derive(Clone)]
 pub struct Field {
-    /// Name of the field, itself.
+    /// Name of the field.
+    ///
+    /// This is the display name and may include spaces.
     pub name: String,
 
     /// Name of the field, itself, formatted for Rust enums.
+    ///
+    /// This is formatted in PascalCase.
     pub name_rust_enum: String,
 
     /// Name of the field, itself, formatted for Rust fields.
+    ///
+    /// This is formatted in snake_case.
     pub name_rust_field: String,
 
     /// Flags for this specific field.
@@ -596,6 +622,8 @@ pub struct EngineBitmapOptions {
 #[derive(Clone)]
 pub enum FieldObject {
     /// Describes an inline object.
+    ///
+    /// References an object in [`ParsedDefinitions::objects`].
     NamedObject(String),
 
     /// Describes a resizeable array of objects.
@@ -645,12 +673,15 @@ pub enum FieldObject {
     /// }
     TagReference {
         /// All allowed groups that can be referenced by this tag reference.
+        ///
+        /// Each entry references a tag group in [`ParsedDefinitions::groups`]
         allowed_groups: Vec<String>
     },
 
     /// Describes a tag group.
     ///
-    /// This is represented by the tag group's fourcc.
+    /// This is internally represented as the tag group's fourcc and is the same size and alignment
+    /// as a [`u32`].
     TagGroup,
 
     /// Describes a reference to unstructured tag data.
@@ -661,7 +692,7 @@ pub enum FieldObject {
     /// use std::ffi::c_void;
     ///
     /// struct Data {
-    ///     /// Length in bytes.
+    ///     /// Length of the data in bytes.
     ///     size: u32,
     ///
     ///     /// Unused in this case.
@@ -690,11 +721,16 @@ pub enum FieldObject {
     /// Describes a null-terminated UTF-16 string.
     ///
     /// Structure-wise, this is the same as a `Data`, but you can use this for specialized handling.
+    ///
+    /// For example, you can automatically parse it into, for example, a [`String`] in Rust, an
+    /// [`std::string`](https://en.cppreference.com/w/cpp/string/basic_string.html) in C++, etc. by
+    /// converting from UTF-16 to UTF-8.
     UTF16String,
 
     /// Describes data that is stored in the file rather than in RAM.
     ///
-    /// This has the same structure as `Data`, but different fields are used.
+    /// This has the same structure as `Data` when in a tag file, but it is slightly different when
+    /// in a cache file, as it references data on the file, itself.
     ///
     /// Can be represented like this:
     ///
@@ -702,13 +738,13 @@ pub enum FieldObject {
     /// use std::ffi::c_void;
     ///
     /// struct FileData {
-    ///     /// Length in bytes.
+    ///     /// Length of the data in bytes.
     ///     size: u32,
     ///
-    ///     /// Flags (used for determining if the data is in a resource file)
+    ///     /// Flags (also determines if the data is in a resource file on the PC ports)
     ///     flags: u32,
     ///
-    ///     /// Offset to the data in the cache file.
+    ///     /// The byte offset that the data in the cache file is stored.
     ///     file_offset: u32,
     ///
     ///     /// Pointer to the data in RAM (meaningless in tag files, unused in cache files).
@@ -724,43 +760,67 @@ pub enum FieldObject {
     FileData,
 
     /// Describes a 32-bit float.
+    ///
+    /// Equivalent to an [`f32`] in Rust and a `float` in C.
     F32,
 
     /// Describes an 8-bit unsigned integer.
+    ///
+    /// Equivalent to a [`u8`] in Rust and a `uint8_t` in C.
     U8,
 
     /// Describes a 16-bit unsigned integer.
+    ///
+    /// Equivalent to a [`u16`] in Rust and a `uint16_t` in C.
     U16,
 
     /// Describes a 32-bit unsigned integer.
+    ///
+    /// Equivalent to a [`u32`] in Rust and a `uint32_t` in C.
     U32,
 
     /// Describes an 8-bit signed integer.
+    ///
+    /// Equivalent to an [`i8`] in Rust and a `int8_t` in C.
     I8,
 
     /// Describes a 16-bit signed integer.
+    ///
+    /// Equivalent to an [`i16`] in Rust and a `int16_t` in C.
     I16,
 
     /// Describes a 32-bit signed integer.
+    ///
+    /// Equivalent to an [`i32`] in Rust and a `int32_t` in C.
     I32,
 
     /// Describes a loose tag ID, stored as a 32-bit unsigned integer.
+    ///
+    /// Bitwise, this has the same size and alignment as a [FieldObject::U32].
     TagID,
 
     /// Describes a loose table ID, stored as a 32-bit unsigned integer.
+    ///
+    /// Bitwise, this has the same size and alignment as a [FieldObject::U32].
     ID,
 
     /// Describes an index of some kind, stored as a 16-bit integer.
     ///
     /// 0xFFFF means "Null" in this case.
+    ///
+    /// Bitwise, this has the same size and alignment as a [FieldObject::U16].
     Index,
 
     /// Describes an angle, stored as a 32-bit float.
     ///
     /// You can use this to display things as degrees instead of radians.
+    ///
+    /// Bitwise, this has the same size and alignment as a [FieldObject::F32].
     Angle,
 
     /// Describes a loose pointer.
+    ///
+    /// Bitwise, this has the same size and alignment as a [FieldObject::U32].
     Address,
 
     /// Describes a two-dimensional vector.
@@ -789,12 +849,22 @@ pub enum FieldObject {
     Vector3D,
 
     /// Describes a 2D vector compressed into a 32-bit value.
+    ///
+    /// From high-to-low, its can be read as `Y8.X8` or `YYYYYYYY.XXXXXXXX`.
+    ///
+    /// Bitwise, this has the same size and alignment as a [FieldObject::U16].
     CompressedVector2D,
 
     /// Describes a 3D vector compressed into a 32-bit value.
+    ///
+    /// From high-to-low, its can be read as `Z10.Y11.X11` or `ZZZZZZZZZZ.YYYYYYYYYYY.XXXXXXXXXXX`.
+    ///
+    /// Bitwise, this has the same size and alignment as a [FieldObject::U32].
     CompressedVector3D,
 
     /// Describes a float \[-1,1\] compressed into a 16-bit value.
+    ///
+    /// Bitwise, this has the same size and alignment as a [FieldObject::U16].
     CompressedFloat,
 
     /// Describes a two-dimensional vector.
@@ -941,6 +1011,7 @@ pub enum FieldObject {
     ///     a: f32,
     ///     rgb: ColorRGB
     /// }
+    ///
     /// struct ColorRGB { r: f32, g: f32, b: f32 }
     /// ```
     ColorARGB,
@@ -948,14 +1019,34 @@ pub enum FieldObject {
     /// Describes an A8R8G8B8 color packed into an int.
     ///
     /// This is represented as `0xAARRGGBB`.
+    ///
+    /// Bitwise, this has the same size and alignment as a [FieldObject::U32].
     Pixel32,
 
     /// Describes a null-terminated 31 character string.
+    ///
+    /// Bitwise, this is a 32 byte array, but the last byte has to be `0x00`.
     String32,
 
     /// Describes a value that can be stored in 32 bits.
     ///
-    /// This is equivalent to a union.
+    /// Can (usually) be represented like this:
+    ///
+    /// ```
+    /// union ScenarioScriptNodeValue {
+    ///     id: ID,
+    ///     long: i32,
+    ///     short: i16,
+    ///     real: f32,
+    ///     bool: bool, // (note: 8-bit; `0x00` is false and `0x01` is true)
+    /// }
+    ///
+    /// type ID = u32;
+    /// ```
+    ///
+    /// Bitwise, this has the same size and alignment as a [FieldObject::U32]. As such, there is
+    /// only one (correct) way to access its data, and the only way to find this is by checking its
+    /// containing node.
     ScenarioScriptNodeValue,
 }
 
