@@ -85,6 +85,7 @@ impl ParsedDefinitions {
                     let parent_maybe = object.get("supergroup").map(|g| g.as_str().unwrap().to_owned());
                     self.groups.insert(object_name.clone(), TagGroup {
                         struct_name: oget_str!(object, "struct").to_owned(),
+                        definition_file: oget_str!(object, "__json_file").to_owned(),
                         supergroup: parent_maybe,
                         supported_engines: SupportedEngines::load_from_json(object),
                         version: oget_number!(object, "version", as_u64).try_into().unwrap_or_else(|e| panic!("{object_name}::version can't convert to u16: {e}")),
@@ -258,6 +259,7 @@ impl ParsedDefinitions {
             self.engines.insert(engine_name.to_owned(), Engine {
                 base_memory_address,
                 build,
+                definition_file: oget_str!(engine, "__json_file").to_owned(),
                 cache_default: engine.get("cache_default").unwrap_or(&Value::Bool(false)).as_bool().unwrap(),
                 build_target: first_bool("build_target", true).unwrap(),
                 fallback: engine.get("fallback").unwrap_or(&Value::Bool(false)).as_bool().unwrap(),
@@ -637,9 +639,15 @@ pub(crate) fn get_all_definitions() -> Vec<Map<String, Value>> {
             .map(|(file,v)| (file, from_slice::<Value>(v).unwrap_or_else(|e| panic!("failed to parse {file}: {e}"))))
             .map(|(file, v)| (file, v.as_array().map(|a| a.to_owned()).unwrap_or_else(|| panic!("failed to convert {file} to an array"))))
             .map(|(file, v)| {
-                v.iter()
+                let mut all_entries = v.iter()
                     .map(|o| o.as_object().unwrap_or_else(|| panic!("invalid objects in {file}")).to_owned())
-                    .collect::<Vec<Map<String, Value>>>()
+                    .collect::<Vec<Map<String, Value>>>();
+
+                for i in &mut all_entries {
+                    i.insert("__json_file".to_string(), Value::String(file.to_string()));
+                }
+
+                all_entries
             })
             .flatten()
             .collect()
@@ -972,6 +980,7 @@ impl LoadFromSerdeJSON for Struct {
         Self {
             flags,
             fields: Vec::from(fields),
+            definition_file: oget_str!(object, "__json_file").to_owned(),
             name,
             size: oget_number!(object, "size", as_u64) as usize,
             is_const: false
@@ -1032,6 +1041,7 @@ impl LoadFromSerdeJSON for Bitfield {
 
         Self {
             width: oget_number!(object, "width", as_u64) as u8,
+            definition_file: oget_str!(object, "__json_file").to_owned(),
             flags: Flags::load_from_json(object),
             fields,
             name
@@ -1046,6 +1056,7 @@ impl LoadFromSerdeJSON for Enum {
 
         Self {
             flags: Flags::load_from_json(object),
+            definition_file: oget_str!(object, "__json_file").to_owned(),
             options: process_field_array(oget!(object, "options").as_array().unwrap_or_else(|| panic!("{name}::options must be an array"))),
             name
         }

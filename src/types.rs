@@ -36,6 +36,17 @@ pub enum NamedObject {
     Bitfield(Bitfield)
 }
 
+impl NamedObject {
+    /// Get the file this object is located in.
+    pub const fn definition_file(&self) -> &str {
+        match self {
+            NamedObject::Bitfield(b) => b.definition_file.as_str(),
+            NamedObject::Enum(e) => e.definition_file.as_str(),
+            NamedObject::Struct(s) => s.definition_file.as_str()
+        }
+    }
+}
+
 impl SizeableObject for NamedObject {
     fn size(&self, parsed_tag_data: &ParsedDefinitions) -> usize {
         match self {
@@ -63,6 +74,9 @@ pub struct TagGroup {
     ///
     /// This is formatted in snake_case, and it references its own object in [`ParsedDefinitions::groups`]
     pub name: String,
+
+    /// The json file the definition is defined in.
+    pub definition_file: String,
 
     /// Name of the tag group, itself, formatted for Rust enums.
     ///
@@ -96,6 +110,9 @@ pub struct Struct {
     ///
     /// This is formatted in PascalCase, and it references its own object in [`ParsedDefinitions::objects`].
     pub name: String,
+
+    /// The json file the definition is defined in.
+    pub definition_file: String,
 
     /// All fields of the struct.
     pub fields: Vec<StructField>,
@@ -296,6 +313,9 @@ pub struct Bitfield {
     /// This is formatted in PascalCase, and it references its own object in [`ParsedDefinitions::objects`].
     pub name: String,
 
+    /// The json file the definition is defined in.
+    pub definition_file: String,
+
     /// Width in bits.
     pub width: u8,
 
@@ -319,6 +339,9 @@ pub struct Enum {
     ///
     /// This is formatted in PascalCase, and it references its own object in [`ParsedDefinitions::objects`].
     pub name: String,
+
+    /// The json file the definition is defined in.
+    pub definition_file: String,
 
     /// All possible values the enum can be.
     pub options: Vec<Field>,
@@ -454,6 +477,9 @@ pub enum EngineCacheParser {
 pub struct Engine {
     /// Internal name of the engine.
     pub name: String,
+
+    /// The json file the definition is defined in.
+    pub definition_file: String,
 
     /// Displayed name of the engine.
     pub display_name: String,
