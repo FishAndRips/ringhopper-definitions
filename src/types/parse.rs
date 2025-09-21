@@ -600,6 +600,7 @@ pub(crate) fn get_all_definitions() -> Vec<Map<String, Value>> {
     jsons.insert("tag/sound_scenery.json", include_bytes!("../../json/tag/sound_scenery.json"));
     jsons.insert("tag/sound.json", include_bytes!("../../json/tag/sound.json"));
     jsons.insert("tag/string_list.json", include_bytes!("../../json/tag/string_list.json"));
+    jsons.insert("tag/tag.json", include_bytes!("../../json/tag/tag.json"));
     jsons.insert("tag/tag_collection.json", include_bytes!("../../json/tag/tag_collection.json"));
     jsons.insert("tag/ui_widget_collection.json", include_bytes!("../../json/tag/ui_widget_collection.json"));
     jsons.insert("tag/ui_widget_definition.json", include_bytes!("../../json/tag/ui_widget_definition.json"));

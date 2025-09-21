@@ -1,0 +1,62 @@
+[
+    {
+        "name": "TagFileHeader",
+        "type": "struct",
+        "fields": [
+            {
+                "type": "pad",
+                "size": 4,
+                "developer_note": "unused/leftover id data on older tags"
+            },
+            {
+                "type": "pad",
+                "size": 32,
+                "developer_note": "unused/leftover string data on older tags"
+            },
+            {
+                "name": "tag group",
+                "type": "TagGroup"
+            },
+            {
+                "name": "crc32",
+                "type": "uint32",
+                "developer_note": "leftover data on older tags (e.g. set to 0xFFFFFFFF instead of a CRC32)"
+            },
+            {
+                "name": "tag data offset",
+                "type": "uint32",
+                "developer_note": "offset to the tag data in the file; equals the header size (64)"
+            },
+            {
+                "name": "internal size",
+                "type": "uint32",
+                "developer_note": "equals 0 in loose tags, may be edited in-memory on official tools"
+            },
+            {
+                "type": "pad",
+                "size": 4
+            },
+            {
+                "name": "version",
+                "type": "uint16"
+            },
+            {
+                "name": "first internal index",
+                "type": "uint8",
+                "developer_note": "equals 0 or 255"
+            },
+            {
+                "name": "second internal index",
+                "type": "uint8",
+                "developer_note": "equals 255"
+            },
+            {
+                "name": "blam fourcc",
+                "type": "uint32",
+                "developer_note": "must be equal to 0x626C616D ('blam')"
+            }
+        ],
+        "size": 64,
+        "developer_note": "on some older tags (e.g. on some point_physics tags that come with the HEK), some of these fields are wrong and/or had a different meaning when they were last saved, but those tags are \"correct enough\" to load with the HEK and, once opened and saved, get auto-fixed"
+    }
+]
