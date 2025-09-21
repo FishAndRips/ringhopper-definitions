@@ -125,8 +125,9 @@
             {
                 "name": "encoding type",
                 "type": "FontEncodingType",
-                "developer_note": "unsure if tool.exe put it in the map like this",
-                "cache_only": true,
+                "developer_note": "set in font tags on some East Asia Xbox Halo releases; not used on Halo PC which uses proper UCS-2 on all languages, and it is absent from the definitions, so we mark this as little_endian",
+                "little_endian": true,
+                "read_only": true,
                 "supported_engines": [
                     "xbox-jp",
                     "xbox-tw"
@@ -135,8 +136,9 @@
             {
                 "name": "character offset",
                 "type": "uint16",
-                "cache_only": true,
-                "developer_note": "= characters reflexive count + 161",
+                "developer_note": "= characters reflexive count + 161; same deal as encoding type",
+                "little_endian": true,
+                "read_only": true,
                 "supported_engines": [
                     "xbox-jp",
                     "xbox-tw"
