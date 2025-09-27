@@ -260,7 +260,7 @@
             },
             {
                 "name": "half hud scale",
-                "comment": "Draw the HUD at half the width and height.",
+                "comment": "Draw the HUD element at half the width and height.",
                 "supported_engines": [
                     "mcc-cea"
                 ]
@@ -272,6 +272,10 @@
             {
                 "name": "use average color for detail fade",
                 "comment": "Instead of fading to gray, use the average color of the bitmap."
+            },
+            {
+                "name": "force hud use highres scale",
+                "comment": "HUD will always scale as if the 'use highres scale' flag is set. This also applies to fields that do not normally have this flag and stacks with 'half hud scale'."
             }
         ],
         "width": 16
