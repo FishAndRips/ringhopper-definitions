@@ -293,6 +293,7 @@ impl ParsedDefinitions {
                     alignment: o.get("alignment").unwrap().as_u64().unwrap(),
                 }).unwrap(),
                 data_alignment: first_u64("data_alignment", true).unwrap(),
+                compressed_data_alignment: first_u64("compressed_data_alignment", true).unwrap(),
                 name: engine_name.to_owned(),
                 required_tags,
                 version: first_string("version", false),

@@ -28,6 +28,7 @@
             "alignment": 1
         },
         "data_alignment": 1,
+        "compressed_data_alignment": 1,
         "resource_maps": {
             "externally_indexed_tags": false
         },

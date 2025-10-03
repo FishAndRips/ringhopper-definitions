@@ -24,6 +24,7 @@
         },
         "data_alignment": 512,
         "compression_type": "deflate",
+        "compressed_data_alignment": 2048,
         "max_script_nodes": 19001,
         "cache_default": true,
         "compressed_models": true,

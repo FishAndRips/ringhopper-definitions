@@ -527,8 +527,14 @@ pub struct Engine {
     /// If true, models are lossily compressed.
     pub compressed_models: bool,
 
-    /// Data alignment in bytes.
+    /// (Uncompressed) data alignment in bytes.
     pub data_alignment: u64,
+
+    /// Compressed data alignment in bytes.
+    ///
+    /// The compressed cache file size must be divisible by this, and the padding must be less than
+    /// this. If the map never uses compression, then this will essentially match data_alignment.
+    pub compressed_data_alignment: u64,
 
     /// The cache file uses an obfuscated header layout.
     pub obfuscated_header_layout: bool,
