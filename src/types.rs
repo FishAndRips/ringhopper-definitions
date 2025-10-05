@@ -1,5 +1,5 @@
 use alloc::string::String;
-use alloc::collections::BTreeMap;
+use alloc::collections::{BTreeMap, BTreeSet};
 use alloc::vec::Vec;
 
 use serde_json::Value;
@@ -393,7 +393,7 @@ pub enum SupportedEngines {
     AllEngines,
 
     /// This is only supported by these engines.
-    SomeEngines(Vec<String>)
+    SomeEngines(BTreeSet<String>)
 }
 
 impl SupportedEngines {

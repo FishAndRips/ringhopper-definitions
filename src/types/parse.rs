@@ -334,9 +334,54 @@ impl ParsedDefinitions {
     }
 
     pub(crate) fn finalize_and_assert_valid(&mut self) {
-        let validate_supported_engines = |supported_engines: &SupportedEngines, object_name: &str, field_name: &str| {
-            if let SupportedEngines::SomeEngines(v) = &supported_engines {
-                for engine in v {
+        let engine_inheritance = {
+            // Engine -> All engines that inherit that engine
+            let mut engines: BTreeMap<String, BTreeSet<String>> = BTreeMap::new();
+            for i in self.engines.keys() {
+                engines.insert(i.to_owned(), BTreeSet::new());
+            }
+
+            for (to_inherit, inheritors) in engines.iter_mut() {
+                loop {
+                    let mut again = false;
+
+                    for (name, engine) in self.engines.iter() {
+                        if inheritors.contains(name) || name == to_inherit {
+                            continue
+                        }
+
+                        if let Some(q) = engine.inherits.as_ref() {
+                            if q == to_inherit || !inheritors.contains(q) {
+                                inheritors.insert(name.to_owned());
+                                again = true;
+                            }
+                        }
+                    }
+
+                    if !again {
+                        break
+                    };
+                }
+            }
+
+            engines
+        };
+
+        let validate_supported_engines = |supported_engines: &mut SupportedEngines, object_name: &str, field_name: &str| {
+            if let SupportedEngines::SomeEngines(v) = supported_engines {
+                let mut actual_engines = BTreeSet::new();
+                for engine in v.iter() {
+                    actual_engines.insert(engine.to_string());
+                    actual_engines.extend(engine_inheritance
+                        .get(engine)
+                        .expect("failed to get an engine; this is a bug")
+                        .iter()
+                        .cloned()
+                    )
+                }
+                *v = actual_engines;
+
+                for engine in v.iter() {
                     if !self.engines.contains_key(engine) {
                         panic!("{object_name}::{field_name}'s limits references an engine {engine} which does not exist");
                     }
@@ -348,7 +393,8 @@ impl ParsedDefinitions {
             }
         };
 
-        for (group_name, group) in &self.groups {
+        let available_groups: BTreeSet<String> = self.groups.keys().cloned().collect();
+        for (group_name, group) in &mut self.groups {
             let group_name_in_struct = &group.name;
             assert_eq!(group_name_in_struct, group_name, "group name `{group_name_in_struct}` not consistent with name `{group_name}` in map");
 
@@ -356,10 +402,10 @@ impl ParsedDefinitions {
             self.objects.get(struct_name).unwrap_or_else(|| panic!("group {group_name} refers to struct {struct_name} which does not exist"));
 
             if let Some(s) = &group.supergroup {
-                self.groups.get(s).unwrap_or_else(|| panic!("group {group_name}'s supergroup refers to group {s} which does not exist"));
+                available_groups.get(s).unwrap_or_else(|| panic!("group {group_name}'s supergroup refers to group {s} which does not exist"));
             }
 
-            validate_supported_engines(&group.supported_engines, &group_name, "(self)");
+            validate_supported_engines(&mut group.supported_engines, &group_name, "(self)");
         }
 
         let mut objects_to_verify = self.objects.clone();
@@ -367,14 +413,14 @@ impl ParsedDefinitions {
             let name_in_object = object.name();
             assert_eq!(name_in_object, object_name, "object name `{name_in_object}` not consistent with name `{object_name}` in map");
 
-            let validate_flags = |flags: &Flags, field_name: &str| validate_supported_engines(&flags.supported_engines, &object_name, field_name);
+            let validate_flags = |flags: &mut Flags, field_name: &str| validate_supported_engines(&mut flags.supported_engines, &object_name, field_name);
 
             match object {
                 NamedObject::Bitfield(b) => {
-                    validate_flags(&b.flags, "(self)");
+                    validate_flags(&mut b.flags, "(self)");
 
-                    for f in &b.fields {
-                        validate_flags(&f.flags, &f.name);
+                    for f in &mut b.fields {
+                        validate_flags(&mut f.flags, &f.name);
                     }
 
                     for i in 0..b.fields.len() {
@@ -387,10 +433,10 @@ impl ParsedDefinitions {
                     assert!(b.fields.len() <= b.width as usize, "bitfield {object_name} has too many fields; {} / {}", b.fields.len(), b.width);
                 },
                 NamedObject::Enum(e) => {
-                    validate_flags(&e.flags, "(self)");
+                    validate_flags(&mut e.flags, "(self)");
 
-                    for f in &e.options {
-                        validate_flags(&f.flags, &f.name);
+                    for f in &mut e.options {
+                        validate_flags(&mut f.flags, &f.name);
                     }
 
                     for i in 0..e.options.len() {
@@ -403,7 +449,7 @@ impl ParsedDefinitions {
                     assert!(e.options.len() <= u16::MAX as usize, "enum {object_name} has too many options, {} / {}", e.options.len(), u16::MAX);
                 },
                 NamedObject::Struct(s) => {
-                    validate_flags(&s.flags, "(self)");
+                    validate_flags(&mut s.flags, "(self)");
 
                     for i in 0..s.fields.len() {
                         if matches!(s.fields[i].field_type, StructFieldType::Padding(_) | StructFieldType::EditorSection { .. } ) {
@@ -418,7 +464,7 @@ impl ParsedDefinitions {
                         }
                     }
 
-                    for f in &s.fields {
+                    for f in &mut s.fields {
                         // Consistency with named objects and groups
                         let field_name = &f.name;
                         match &f.field_type {
@@ -450,7 +496,7 @@ impl ParsedDefinitions {
                             }
                         }
 
-                        validate_flags(&f.flags, &field_name);
+                        validate_flags(&mut f.flags, &field_name);
                     }
 
                     s.set_offsets_and_verify_sizes(self);
@@ -682,7 +728,7 @@ impl LoadFromSerdeJSON for SupportedEngines {
             .unwrap_or_else(|| panic!("{}::version is not an array", oget_name!(object)))
             .iter()
             .map(|f| f.as_str().unwrap_or_else(|| panic!("{}::version contains non-strings", oget_name!(object))).to_owned())
-            .collect::<Vec<String>>();
+            .collect::<BTreeSet<String>>();
 
         Self::SomeEngines(supported_engines)
     }
@@ -1168,5 +1214,13 @@ mod test {
     #[test]
     fn test_load_all_definitions() {
         crate::load_all_definitions();
+    }
+    #[test]
+    fn shader_transparent_chicago_extended_works_on_custom_edition() {
+        let definitions = crate::load_all_definitions();
+        let supported = definitions.groups["shader_transparent_chicago_extended"]
+            .supported_engines
+            .supports_engine(&definitions.engines["pc-custom"]);
+        assert!(supported, "Custom Edition must support shader_transparent_chicago_extended")
     }
 }
