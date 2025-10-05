@@ -4,10 +4,19 @@
         "options": [
             "vertical orientation",
             "horizontal orientation",
-            "media mapped",
-            "ground mapped",
+            {
+                "name": "media mapped",
+                "comment": "Disables pinning to ground; forces pinning to media"
+            },
+            {
+                "name": "ground mapped",
+                "comment": "Disables pinning to media; forces pinning to ground"
+            },
             "viewer facing",
-            "double marker linked"
+            {
+                "name": "double marker linked",
+                "comment": "Disables pinning to media/ground"
+            }
         ],
         "type": "enum"
     },
@@ -125,7 +134,8 @@
             {
                 "name": "point generation rate",
                 "type": "float",
-                "unit": "points per second"
+                "unit": "points per second",
+                "minimum": 0.0
             },
             {
                 "name": "point velocity",
@@ -205,6 +215,7 @@
                 "name": "point states",
                 "type": "Reflexive",
                 "struct": "ContrailPointState",
+                "minimum": 1,
                 "limit": 16
             }
         ],
