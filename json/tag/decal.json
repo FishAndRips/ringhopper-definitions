@@ -28,7 +28,11 @@
             "interpolate color in hsv",
             "more colors",
             "no random rotation",
-            "water effect",
+            {
+                "name": "water effect",
+                "cache_only": true,
+                "developer_note": "Viewable/editable in official tools, but it will always get overridden (similar to font tags' leading width), so it's effectively cache only. It will get set to true if water layer, false if not."
+            },
             "editor snap to axis",
             "editor incremental counter",
             "animation loop",
@@ -240,7 +244,8 @@
                 "name": "maximum sprite extent",
                 "type": "float",
                 "unit": "pixels",
-                "cache_only": true
+                "cache_only": true,
+                "developer_note": "Editable in the official tools, but it is always set to 16 regardless of what is actually set in the tag."
             },
             {
                 "type": "pad",
