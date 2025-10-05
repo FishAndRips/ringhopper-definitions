@@ -124,12 +124,8 @@
         "name": "ShaderModelMaps",
         "fields": [
             {
-                "name": "map u scale",
-                "type": "float"
-            },
-            {
-                "name": "map v scale",
-                "type": "float"
+                "name": "map scale",
+                "type": "Vector2D"
             },
             {
                 "name": "base map",

@@ -724,14 +724,12 @@
                 "size": 8
             },
             {
-                "name": "base map u scale",
-                "type": "float",
-                "default": 1.0
-            },
-            {
-                "name": "base map v scale",
-                "type": "float",
-                "default": 1.0
+                "name": "base map scale",
+                "type": "Vector2D",
+                "default": [
+                    1.0,
+                    1.0
+                ]
             },
             {
                 "type": "pad",

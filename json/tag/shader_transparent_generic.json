@@ -149,20 +149,12 @@
         "name": "ShaderTransparentMapParameters",
         "fields": [
             {
-                "name": "map u scale",
-                "type": "float"
+                "name": "map scale",
+                "type": "Vector2D"
             },
             {
-                "name": "map v scale",
-                "type": "float"
-            },
-            {
-                "name": "map u offset",
-                "type": "float"
-            },
-            {
-                "name": "map v offset",
-                "type": "float"
+                "name": "map offset",
+                "type": "Vector2D"
             },
             {
                 "name": "map rotation",
