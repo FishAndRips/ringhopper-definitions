@@ -65,7 +65,7 @@
             },
             {
                 "name": "animation",
-                "type": "ShaderTransparentMapAnimation"
+                "type": "ShaderTextureScrollingAnimation"
             }
         ],
         "type": "struct",
