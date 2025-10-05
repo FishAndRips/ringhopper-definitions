@@ -305,30 +305,30 @@
             {
                 "type": "pad",
                 "size": 16
-            }
-        ],
-        "size": 72,
-        "type": "struct"
-    },
-    {
-        "name": "ShaderModelBullshit",
-        "fields": [
-            {
-                "name": "bullshit",
-                "type": "float",
-                "developer_note": "tool.exe will copy this value into a cache file as big endian if it's higher than 0 but lower than 2, otherwise it sets it to 1 as little endian. We treat this as cache only and always set it to 1 when building a map"
             },
             {
-                "type": "pad",
-                "developer_note": "bitmap reference that was removed before the game was released",
-                "size": 16
+                "name": "bump map scale",
+                "type": "float",
+                "developer_note": "This is unused by the game and is generally just defaulted to 1 on build. It is apparently used in Stubbs the Zombie, however.",
+                "cache_only": true,
+                "hidden": true
+            },
+            {
+                "name": "bump map",
+                "type": "TagReference",
+                "developer_note": "This is unused by the game and is generally just a null reference on most maps. It is apparently used in Stubbs the Zombie, however.",
+                "groups": [
+                    "bitmap"
+                ],
+                "cache_only": true,
+                "hidden": true
             },
             {
                 "type": "pad",
                 "size": 32
             }
         ],
-        "size": 52,
+        "size": 124,
         "type": "struct"
     },
     {
@@ -382,11 +382,6 @@
             {
                 "name": "reflection",
                 "type": "ShaderModelReflection"
-            },
-            {
-                "name": "bullshit",
-                "type": "ShaderModelBullshit",
-                "cache_only": true
             }
         ],
         "type": "struct",
