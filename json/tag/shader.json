@@ -265,19 +265,10 @@
             {
                 "name": "material type",
                 "type": "MaterialType"
-            },
-            {
-                "name": "type",
-                "type": "uint16",
-                "cache_only": true
-            },
-            {
-                "type": "pad",
-                "size": 2
             }
         ],
         "type": "struct",
-        "size": 8
+        "size": 4
     },
     {
         "name": "ShaderLensFlares",
@@ -316,6 +307,16 @@
             {
                 "name": "physics",
                 "type": "ShaderPhysicsProperties"
+            },
+            {
+                "name": "type",
+                "type": "uint16",
+                "developer_note": "Refers to ShaderTypeXbox/ShaderTypePC cast to uint16 depending on engine",
+                "cache_only": true
+            },
+            {
+                "type": "pad",
+                "size": 2
             }
         ],
         "type": "struct",
