@@ -109,7 +109,8 @@
             {
                 "name": "radius multiplier",
                 "type": "float",
-                "default": 1.0
+                "default": 1.0,
+                "minimum": 0.0
             },
             {
                 "name": "minimum particle count",
@@ -210,7 +211,8 @@
             {
                 "name": "radius multiplier",
                 "type": "float",
-                "default": 1.0
+                "default": 1.0,
+                "minimum": 0.0
             },
             {
                 "name": "point physics",
@@ -268,7 +270,8 @@
             {
                 "name": "radius",
                 "unit": "world units",
-                "type": "float"
+                "type": "float",
+                "minimum": 0.0
             },
             {
                 "type": "pad",

@@ -135,12 +135,14 @@
             {
                 "name": "fade start size",
                 "unit": "pixels",
-                "type": "float"
+                "type": "float",
+                "minimum": 0.0
             },
             {
                 "name": "fade end size",
                 "unit": "pixels",
-                "type": "float"
+                "type": "float",
+                "minimum": 0.0
             },
             {
                 "type": "pad",
