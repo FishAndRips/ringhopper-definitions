@@ -20,6 +20,14 @@
         },
         "script_compile_target": "mcc-cea",
         "max_script_nodes": 32767,
+        "grenades": {
+            "minimum": 2,
+            "maximum": {
+                "singleplayer": 4,
+                "user_interface": 4,
+                "multiplayer": 2
+            }
+        },
         "inherits": "pc-retail"
     }
 ]

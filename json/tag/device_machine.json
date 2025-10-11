@@ -45,7 +45,8 @@
             {
                 "name": "door open time",
                 "unit": "seconds",
-                "type": "float"
+                "type": "float",
+                "minimum": 0.0
             },
             {
                 "type": "pad",

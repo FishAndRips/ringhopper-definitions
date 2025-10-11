@@ -17,55 +17,79 @@
             },
             {
                 "name": "room intensity",
-                "type": "float"
+                "type": "float",
+                "minimum": 0.0,
+                "maximum": 1.0
             },
             {
                 "name": "room intensity hf",
-                "type": "float"
+                "type": "float",
+                "minimum": 0.0,
+                "maximum": 1.0
             },
             {
                 "name": "room rolloff",
-                "type": "float"
+                "type": "float",
+                "minimum": 0.0,
+                "maximum": 10.0
             },
             {
                 "name": "decay time",
                 "unit": "seconds",
-                "type": "float"
+                "type": "float",
+                "minimum": 0.0,
+                "maximum": 20.0
             },
             {
                 "name": "decay hf ratio",
-                "type": "float"
+                "type": "float",
+                "minimum": 0.0,
+                "maximum": 2.0
             },
             {
                 "name": "reflections intensity",
-                "type": "float"
+                "type": "float",
+                "minimum": 0.0,
+                "maximum": 1.0
             },
             {
                 "name": "reflections delay",
                 "unit": "seconds",
-                "type": "float"
+                "type": "float",
+                "minimum": 0.0,
+                "maximum": 0.3
             },
             {
                 "name": "reverb intensity",
-                "type": "float"
+                "type": "float",
+                "minimum": 0.0,
+                "maximum": 1.0
             },
             {
                 "name": "reverb delay",
                 "unit": "seconds",
-                "type": "float"
+                "type": "float",
+                "minimum": 0.0,
+                "maximum": 0.1
             },
             {
                 "name": "diffusion",
-                "type": "float"
+                "type": "float",
+                "minimum": 0.0,
+                "maximum": 1.0
             },
             {
                 "name": "density",
-                "type": "float"
+                "type": "float",
+                "minimum": 0.0,
+                "maximum": 1.0
             },
             {
                 "name": "hf reference",
                 "unit": "Hz",
-                "type": "float"
+                "type": "float",
+                "minimum": 20.0,
+                "maximum": 20000.0
             },
             {
                 "type": "pad",

@@ -146,10 +146,11 @@ impl ParsedDefinitions {
                     .collect()
             };
 
-            let first_object = |what: &str, required: bool| get_chain(what, required).first().map(|(f, v)| v.as_object().unwrap_or_else(|| panic!("{f} is not an object")).to_owned());
-            let first_string = |what: &str, required: bool| get_chain(what, required).first().map(|(f, v)| v.as_str().unwrap_or_else(|| panic!("{f} is nonstring")).to_owned());
-            let first_u64 = |what: &str, required: bool| get_chain(what, required).first().map(|(f, v)| v.as_u64().unwrap_or_else(|| panic!("{f} is non-u64")).to_owned());
-            let first_bool = |what: &str, required: bool| get_chain(what, required).first().map(|(f, v)| v.as_bool().unwrap_or_else(|| panic!("{f} is non-bool")).to_owned());
+            let first_value = |what: &str, required: bool| get_chain(what, required).first().map(|(_, v)| v.to_owned());
+            let first_object = |what: &str, required: bool| first_value(what, required).map(|v| v.as_object().unwrap_or_else(|| panic!("{what} is not an object")).to_owned());
+            let first_string = |what: &str, required: bool| first_value(what, required).map(|v| v.as_str().unwrap_or_else(|| panic!("{what} is nonstring")).to_owned());
+            let first_u64 = |what: &str, required: bool| first_value(what, required).map(|v| v.as_u64().unwrap_or_else(|| panic!("{what} is non-u64")).to_owned());
+            let first_bool = |what: &str, required: bool| first_value(what, required).map(|v| v.as_bool().unwrap_or_else(|| panic!("{what} is non-bool")).to_owned());
 
             let base_memory_address = {
                 let bma_search = get_chain("base_memory_address", true);
@@ -284,6 +285,57 @@ impl ParsedDefinitions {
                     "none" => EngineCompressionType::Uncompressed,
                     "deflate" => EngineCompressionType::Deflate,
                     compression_type => panic!("unknown compression_type {compression_type}", compression_type=compression_type)
+                },
+                grenades: {
+                    let as_u8 = |value: &Value| -> u8 {
+                        value.as_u64().expect("grenades is not a decimal").try_into().expect("grenades is not 0-255")
+                    };
+
+                    let value = first_value("grenades", true).expect("no grenades?");
+                    let limits = match value {
+                        Value::Number(_) => {
+                            let q: u8 = as_u8(&value);
+                            EngineGrenades {
+                                user_interface: q..=q,
+                                singleplayer: q..=q,
+                                multiplayer: q..=q
+                            }
+                        },
+                        Value::Object(o) => {
+                            // singleplayer, multiplayer, then user_interface
+                            let parse_limits = |value: &Value| -> (u8,u8,u8) {
+                                match value {
+                                    Value::Number(_) => {
+                                        let q: u8 = as_u8(value);
+                                        (q,q,q)
+                                    },
+                                    Value::Object(o) => {
+                                        let singleplayer = o.get("singleplayer").expect("no singleplayer grenades");
+                                        let multiplayer = o.get("multiplayer").expect("no multiplayer grenades");
+                                        let user_interface = o.get("user_interface").expect("no user_interface grenades");
+                                        (as_u8(singleplayer), as_u8(multiplayer), as_u8(user_interface))
+                                    },
+                                    _ => panic!("grenades min/max not an object or number")
+                                }
+                            };
+
+                            let minimum = parse_limits(o.get("minimum").expect("no minimum grenades"));
+                            let maximum = parse_limits(o.get("maximum").expect("no maximum grenades"));
+
+                            EngineGrenades {
+                                multiplayer: minimum.0..=maximum.0,
+                                singleplayer: minimum.1..=maximum.1,
+                                user_interface: minimum.2..=maximum.2,
+                            }
+                        },
+                        _ => panic!("grenades not an object or number")
+                    };
+
+                    assert!(limits.multiplayer.start() <= limits.multiplayer.end(), "multiplayer has bad grenade limits (min > max)");
+                    assert!(limits.singleplayer.start() <= limits.singleplayer.end(), "user_interface has bad grenade limits (min > max)");
+                    assert!(limits.user_interface.start() <= limits.user_interface.end(), "user_interface has bad grenade limits (min > max)");
+
+                    limits
                 },
                 compressed_models: first_bool("compressed_models", true).unwrap(),
                 bitmap_options: get_chain("bitmap_options", true)[0].1.as_object().map(|o| EngineBitmapOptions {

@@ -1,7 +1,7 @@
 use alloc::string::String;
 use alloc::collections::{BTreeMap, BTreeSet};
 use alloc::vec::Vec;
-
+use core::ops::RangeInclusive;
 use serde_json::Value;
 
 /// Contains all definitions.
@@ -559,6 +559,21 @@ pub struct Engine {
 
     /// Type of compression.
     pub compression_type: EngineCompressionType,
+
+    /// Grenade limits
+    pub grenades: EngineGrenades
+}
+
+/// Describes limits to grenades
+pub struct EngineGrenades {
+    /// Grenade limit for singleplayer
+    pub singleplayer: RangeInclusive<u8>,
+
+    /// Grenade limit for multiplayer
+    pub multiplayer: RangeInclusive<u8>,
+
+    /// Grenade limit for user interface
+    pub user_interface: RangeInclusive<u8>
 }
 
 /// Describes the type of compression used, if any.
