@@ -29,6 +29,7 @@
         "cache_default": true,
         "compressed_models": true,
         "grenades": 2,
+        "minimum_weapons": 14,
         "required_tags": {
             "all": [
                 "globals\\globals.globals",

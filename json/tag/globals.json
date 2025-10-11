@@ -50,6 +50,28 @@
         "type": "enum"
     },
     {
+        "name": "GlobalsWeaponType",
+        "options": [
+            "assault rifle",
+            "flamethrower",
+            "gravity rifle",
+            "needler",
+            "pistol",
+            "plasma pistol",
+            "plasma rifle",
+            "rocket launcher",
+            "shotgun",
+            "sniper rifle",
+            "ball",
+            "flag",
+            "frag grenade",
+            "plasma grenade",
+            "plasma cannon",
+            "multiplayer needler"
+        ],
+        "type": "enum"
+    },
+    {
         "name": "GlobalsRasterizerDataFlags",
         "type": "bitfield",
         "fields": [

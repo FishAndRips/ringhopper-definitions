@@ -560,8 +560,11 @@ pub struct Engine {
     /// Type of compression.
     pub compression_type: EngineCompressionType,
 
-    /// Grenade limits
-    pub grenades: EngineGrenades
+    /// Grenade limits.
+    pub grenades: EngineGrenades,
+    
+    /// Minimum weapons in a globals tag.
+    pub minimum_weapons: u64
 }
 
 /// Describes limits to grenades

@@ -29,6 +29,7 @@
         },
         "data_alignment": 1,
         "grenades": 2,
+        "minimum_weapons": 16,
         "compressed_data_alignment": 1,
         "resource_maps": {
             "externally_indexed_tags": false

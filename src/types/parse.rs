@@ -276,6 +276,7 @@ impl ParsedDefinitions {
                 }),
                 external_models: first_bool("external_models", false).unwrap_or(false),
                 external_bsps: first_bool("external_bsps", false).unwrap_or(false),
+                minimum_weapons: first_u64("minimum_weapons", true).unwrap(),
                 cache_parser: match first_string("cache_parser", true).unwrap().as_str() {
                     "pc" => EngineCacheParser::PC,
                     "xbox" => EngineCacheParser::Xbox,
