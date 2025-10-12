@@ -74,6 +74,17 @@
         "width": 32
     },
     {
+        "name": "WeaponHUDInterfaceElementFlags",
+        "fields": [
+            {
+                "name": "disabled",
+                "developer_note": "Set by the map compiler when no bitmap is referenced."
+            }
+        ],
+        "type": "bitfield",
+        "width": 16
+    },
+    {
         "name": "WeaponHUDInterfaceNumberWeaponSpecificFlags",
         "type": "bitfield",
         "fields": [
@@ -152,8 +163,9 @@
                 "type": "WeaponHUDInterfaceStateAttachedTo"
             },
             {
-                "type": "pad",
-                "size": 2
+                "name": "flags",
+                "type": "WeaponHUDInterfaceElementFlags",
+                "cache_only": true
             },
             {
                 "name": "allowed view type",
@@ -190,8 +202,9 @@
                 "type": "WeaponHUDInterfaceStateAttachedTo"
             },
             {
-                "type": "pad",
-                "size": 2
+                "name": "flags",
+                "type": "WeaponHUDInterfaceElementFlags",
+                "cache_only": true
             },
             {
                 "name": "allowed view type",
@@ -228,8 +241,9 @@
                 "type": "WeaponHUDInterfaceStateAttachedTo"
             },
             {
-                "type": "pad",
-                "size": 2
+                "name": "flags",
+                "type": "WeaponHUDInterfaceElementFlags",
+                "cache_only": true
             },
             {
                 "name": "allowed view type",
@@ -309,8 +323,9 @@
                 "type": "WeaponHUDInterfaceCrosshairType"
             },
             {
-                "type": "pad",
-                "size": 2
+                "name": "flags",
+                "type": "WeaponHUDInterfaceElementFlags",
+                "cache_only": true
             },
             {
                 "name": "allowed view type",
@@ -401,8 +416,9 @@
                 "type": "WeaponHUDInterfaceStateAttachedTo"
             },
             {
-                "type": "pad",
-                "size": 2
+                "name": "flags",
+                "type": "WeaponHUDInterfaceElementFlags",
+                "cache_only": true
             },
             {
                 "name": "allowed view type",
