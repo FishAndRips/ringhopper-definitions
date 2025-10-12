@@ -466,14 +466,6 @@
         "width": 8
     },
     {
-        "name": "HUDInterfaceOverlayFlashFlags",
-        "type": "bitfield",
-        "fields": [
-            "flashes when active"
-        ],
-        "width": 32
-    },
-    {
         "name": "HUDInterfaceMessagingFlags",
         "type": "bitfield",
         "fields": [

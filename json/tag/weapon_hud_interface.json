@@ -74,6 +74,18 @@
         "width": 32
     },
     {
+        "name": "WeaponHUDInterfaceOverlayFlashFlags",
+        "type": "bitfield",
+        "fields": [
+            "flashes when active",
+            {
+                "name": "disabled",
+                "cache_only": true
+            }
+        ],
+        "width": 32
+    },
+    {
         "name": "WeaponHUDInterfaceElementFlags",
         "fields": [
             {
@@ -394,7 +406,7 @@
             },
             {
                 "name": "flags",
-                "type": "HUDInterfaceOverlayFlashFlags"
+                "type": "WeaponHUDInterfaceOverlayFlashFlags"
             },
             {
                 "type": "pad",

@@ -21,49 +21,6 @@
         "width": 32
     },
     {
-        "name": "GrenadeHUDInterfaceOverlay",
-        "fields": [
-            {
-                "name": "position",
-                "type": "HUDInterfaceElementPosition"
-            },
-            {
-                "name": "color",
-                "type": "HUDInterfaceElementColor"
-            },
-            {
-                "type": "pad",
-                "size": 4
-            },
-            {
-                "name": "frame rate",
-                "type": "float"
-            },
-            {
-                "name": "sequence index",
-                "type": "Index"
-            },
-            {
-                "name": "type",
-                "type": "GrenadeHUDInterfaceOverlayType"
-            },
-            {
-                "name": "flags",
-                "type": "HUDInterfaceOverlayFlashFlags"
-            },
-            {
-                "type": "pad",
-                "size": 16
-            },
-            {
-                "type": "pad",
-                "size": 40
-            }
-        ],
-        "type": "struct",
-        "size": 136
-    },
-    {
         "name": "GrenadeHUDInterfaceSound",
         "fields": [
             {
@@ -123,7 +80,7 @@
             {
                 "name": "overlays",
                 "type": "Reflexive",
-                "struct": "GrenadeHUDInterfaceOverlay",
+                "struct": "WeaponHUDInterfaceOverlay",
                 "limit": 16
             },
             {
