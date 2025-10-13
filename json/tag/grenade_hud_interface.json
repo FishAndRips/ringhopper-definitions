@@ -71,17 +71,8 @@
         "name": "GrenadeHUDInterfaceTotalGrenadesOverlays",
         "fields": [
             {
-                "name": "bitmap",
-                "type": "TagReference",
-                "groups": [
-                    "bitmap"
-                ]
-            },
-            {
-                "name": "overlays",
-                "type": "Reflexive",
-                "struct": "WeaponHUDInterfaceOverlay",
-                "limit": 16
+                "name": "overlay data",
+                "type": "WeaponHUDInterfaceOverlayTuple"
             },
             {
                 "name": "warning sounds",

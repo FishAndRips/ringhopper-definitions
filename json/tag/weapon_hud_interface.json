@@ -421,6 +421,26 @@
         "size": 136
     },
     {
+        "name": "WeaponHUDInterfaceOverlayTuple",
+        "fields": [
+            {
+                "name": "bitmap",
+                "type": "TagReference",
+                "groups": [
+                    "bitmap"
+                ]
+            },
+            {
+                "name": "overlays",
+                "type": "Reflexive",
+                "struct": "WeaponHUDInterfaceOverlay",
+                "limit": 16
+            }
+        ],
+        "type": "struct",
+        "size": 28
+    },
+    {
         "name": "WeaponHUDInterfaceOverlayElement",
         "fields": [
             {
@@ -448,17 +468,8 @@
                 "size": 28
             },
             {
-                "name": "overlay bitmap",
-                "type": "TagReference",
-                "groups": [
-                    "bitmap"
-                ]
-            },
-            {
-                "name": "overlays",
-                "type": "Reflexive",
-                "struct": "WeaponHUDInterfaceOverlay",
-                "limit": 16
+                "name": "overlay data",
+                "type": "WeaponHUDInterfaceOverlayTuple"
             },
             {
                 "type": "pad",
