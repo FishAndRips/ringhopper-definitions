@@ -188,6 +188,9 @@ pub struct StructField {
     /// Number of fields.
     pub count: FieldCount,
 
+    /// Whether or not the field is nullable.
+    pub nullability: Nullability,
+
     /// Minimum value.
     pub minimum: Option<StaticValue>,
 
@@ -430,9 +433,6 @@ pub struct Flags {
     /// The value is subtracted by 1 when put into a cache file (and incremented by 1 if extracted).
     pub shifted_by_one: bool,
 
-    /// The value must be set.
-    pub non_null: bool,
-
     /// Supported engines for the field.
     ///
     /// If unsupported, this is treated as padding.
@@ -448,6 +448,28 @@ pub struct Flags {
     pub description: Option<String>
 }
 
+/// Describes the nullability of a field.
+///
+/// This applies to enums, tag references, and Index types.
+///
+/// For all other values, this property should be ignored.
+#[derive(Copy, Clone, Default, Debug)]
+pub enum Nullability {
+    /// The field must not be null and must be set.
+    ///
+    /// This is the default state for enums.
+    #[default]
+    NonNull,
+
+    /// The field may be null.
+    ///
+    /// For Index and enums, this means it can be set to 0xFFFF (-1). For tag references, it can be
+    /// unset.
+    ///
+    /// This is the default state for tag references and Index types.
+    Nullable
+}
+
 impl Flags {
     pub(crate) fn combine_with(&mut self, other: &Flags) {
         self.cache_only |= other.cache_only;
@@ -457,7 +479,6 @@ impl Flags {
         self.exclude |= other.exclude;
         self.little_endian_in_tags |= other.little_endian_in_tags;
         self.shifted_by_one |= other.shifted_by_one;
-        self.non_null |= other.non_null;
     }
 }
 

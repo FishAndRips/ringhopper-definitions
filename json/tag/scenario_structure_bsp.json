@@ -698,12 +698,14 @@
         "fields": [
             {
                 "name": "front region",
-                "type": "Index"
+                "type": "Index",
+                "non_null": true
             },
             {
                 "name": "material type",
                 "type": "MaterialType",
-                "cache_only": true
+                "cache_only": true,
+                "non_null": false
             },
             {
                 "name": "plane",

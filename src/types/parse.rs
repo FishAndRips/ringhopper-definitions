@@ -804,7 +804,6 @@ impl LoadFromSerdeJSON for Flags {
             little_endian_in_tags: get_flag("little_endian"),
             supported_engines: SupportedEngines::load_from_json(object),
             shifted_by_one: get_flag("shifted_by_one"),
-            non_null: get_flag("non_null"),
             comment: get_str("comment"),
             developer_note: get_str("developer_note"),
             description: get_str("description")
@@ -828,7 +827,8 @@ impl LoadFromSerdeJSON for StructField {
                 maximum: None,
                 minimum: None,
                 limit: None,
-                relative_offset: isize::MAX as usize
+                relative_offset: isize::MAX as usize,
+                nullability: Nullability::NonNull
             },
             StructFieldType::EditorSection { heading, .. } => return Self {
                 name: heading.clone(),
@@ -841,7 +841,8 @@ impl LoadFromSerdeJSON for StructField {
                 maximum: None,
                 minimum: None,
                 limit: None,
-                relative_offset: isize::MAX as usize
+                relative_offset: isize::MAX as usize,
+                nullability: Nullability::NonNull
             },
         };
 
@@ -930,12 +931,29 @@ impl LoadFromSerdeJSON for StructField {
             limit,
             flags: Flags::load_from_json(object),
             default_value: get_static_values("default"),
-            field_type,
             count,
             name_rust_field: format_for_rust_fields(&name),
             name_rust_enum: format_for_rust_enums(&name),
             name,
-            relative_offset: isize::MAX as usize
+            relative_offset: isize::MAX as usize,
+            nullability: {
+                if let Some(non_null) = object.get("non_null") {
+                    if non_null.as_bool().expect("non_null was not a bool") {
+                        Nullability::NonNull
+                    }
+                    else {
+                        Nullability::Nullable
+                    }
+                }
+                else {
+                    match object_type {
+                        FieldObject::Index => Nullability::Nullable,
+                        FieldObject::Reflexive(_) => Nullability::Nullable,
+                        _ => Nullability::NonNull
+                    }
+                }
+            },
+            field_type
         }
     }
 }
@@ -1074,7 +1092,8 @@ impl LoadFromSerdeJSON for Struct {
                 maximum: None,
                 limit: None,
                 flags: Flags::default(),
-                relative_offset: usize::MAX
+                relative_offset: usize::MAX,
+                nullability: Nullability::NonNull
             })
         }
 
