@@ -878,7 +878,7 @@
         "fields": [
             {
                 "name": "data",
-                "type": "int8"
+                "type": "uint8"
             }
         ],
         "type": "struct",
@@ -1464,6 +1464,7 @@
                 "name": "pathfinding surfaces",
                 "type": "Reflexive",
                 "struct": "ScenarioStructureBSPPathfindingSurface",
+                "cache_only": true,
                 "limit": 131072
             },
             {
