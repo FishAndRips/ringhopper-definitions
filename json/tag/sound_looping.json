@@ -169,7 +169,8 @@
             },
             {
                 "name": "zero detail sound period",
-                "type": "float"
+                "type": "float",
+                "minimum": 0.0
             },
             {
                 "name": "zero detail unused",
@@ -179,7 +180,8 @@
             },
             {
                 "name": "one detail sound period",
-                "type": "float"
+                "type": "float",
+                "minimum": 0.0
             },
             {
                 "name": "one detail unused",
