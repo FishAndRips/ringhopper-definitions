@@ -989,7 +989,7 @@
             },
             {
                 "name": "valid layers flags",
-                "type": "int32"
+                "type": "uint32"
             },
             {
                 "name": "start index",
