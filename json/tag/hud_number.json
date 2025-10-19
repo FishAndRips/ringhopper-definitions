@@ -5,6 +5,7 @@
             {
                 "name": "digits bitmap",
                 "type": "TagReference",
+                "non_null": true,
                 "groups": [
                     "bitmap"
                 ]
