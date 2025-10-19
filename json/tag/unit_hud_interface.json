@@ -185,39 +185,6 @@
         "size": 136
     },
     {
-        "name": "UnitHUDInterfaceMotionSensorCenter",
-        "fields": [
-            {
-                "name": "anchor offset",
-                "type": "Vector2DInt"
-            },
-            {
-                "name": "width scale",
-                "type": "float",
-                "default": 1.0
-            },
-            {
-                "name": "height scale",
-                "type": "float",
-                "default": 1.0
-            },
-            {
-                "name": "scaling flags",
-                "type": "HUDInterfaceScalingFlags"
-            },
-            {
-                "type": "pad",
-                "size": 2
-            },
-            {
-                "type": "pad",
-                "size": 20
-            }
-        ],
-        "type": "struct",
-        "size": 36
-    },
-    {
         "name": "UnitHUDInterfaceAuxiliaryElements",
         "fields": [
             {
@@ -338,7 +305,7 @@
             },
             {
                 "heading": "Motion Sensor Foreground",
-                "body": "This defines parameters the motion sensor foreground such as placement for the blip.",
+                "body": "This defines a static element present in front of the motion sensor.",
                 "type": "editor_section"
             },
             {
@@ -351,11 +318,12 @@
             },
             {
                 "heading": "Motion Sensor Center",
+                "body": "This defines the reference position of the motion sensor blips and sweeper. Note that the sweep and blip bitmaps, themselves, are defined in the interface bitmaps reflexive of the globals tag.",
                 "type": "editor_section"
             },
             {
                 "name": "motion sensor center",
-                "type": "UnitHUDInterfaceMotionSensorCenter"
+                "type": "HUDInterfaceElementPosition"
             },
             {
                 "heading": "Auxiliary Elements",
