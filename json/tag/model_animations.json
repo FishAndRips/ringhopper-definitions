@@ -770,7 +770,7 @@
             },
             {
                 "name": "main animation index",
-                "type": "uint16",
+                "type": "Index",
                 "cache_only": true
             },
             {
