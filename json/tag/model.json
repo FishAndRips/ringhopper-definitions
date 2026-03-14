@@ -662,27 +662,22 @@
         "fields": [
             {
                 "name": "super low",
-                "unit": "pixels",
                 "type": "uint16"
             },
             {
                 "name": "low",
-                "unit": "pixels",
                 "type": "uint16"
             },
             {
                 "name": "medium",
-                "unit": "pixels",
                 "type": "uint16"
             },
             {
                 "name": "high",
-                "unit": "pixels",
                 "type": "uint16"
             },
             {
                 "name": "super high",
-                "unit": "pixels",
                 "type": "uint16"
             },
             {
