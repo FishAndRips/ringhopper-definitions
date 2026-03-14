@@ -138,18 +138,8 @@
                 "size": 32
             },
             {
-                "name": "scale",
-                "type": "float",
-                "cache_only": true
-            },
-            {
-                "name": "rotation",
-                "type": "Matrix3x3",
-                "cache_only": true
-            },
-            {
-                "name": "translation",
-                "type": "Vector3D",
+                "name": "default matrix",
+                "type": "Matrix4x3",
                 "cache_only": true
             }
         ],

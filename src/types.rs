@@ -1060,6 +1060,26 @@ pub enum FieldObject {
     /// ```
     Matrix3x3,
 
+    /// Describes full transformation (scale, rotation, and translation).
+    ///
+    /// This is not actually a 4x3 matrix (the scale, rotation, and translation are independent of
+    /// one another, and there are 13 floats, not 12), but the game internally calls it this, and
+    /// we're also calling it this because it's funny.
+    ///
+    /// Can be represented like this:
+    ///
+    /// ```
+    /// struct Matrix4x3 {
+    ///     scale: f32,
+    ///     rotation: Matrix3x3,
+    ///     translation: Vector3D
+    /// }
+    ///
+    /// struct Vector3D { x: f32, y: f32, z: f32 }
+    /// struct Matrix3x3 { forward: Vector3D, left: Vector3D, up: Vector3D }
+    /// ```
+    Matrix4x3,
+
     /// Describes color without alpha.
     ///
     /// Can be represented like this:
@@ -1149,6 +1169,7 @@ impl FieldObject {
             | Self::Quaternion
             | Self::Matrix2x3
             | Self::Matrix3x3
+            | Self::Matrix4x3
             | Self::ColorRGB
             | Self::Euler2D
             | Self::Euler3D
@@ -1181,6 +1202,10 @@ impl FieldObject {
             Self::Vector2DInt => 2,
             Self::Matrix2x3 => 2 * 3,
             Self::Matrix3x3 => 3 * 3,
+            Self::Matrix4x3 => {
+                // 4 * 3 = 13 because Bungie said so
+                13
+            },
             Self::ColorRGB => 3,
             Self::ColorARGB => 4,
             Self::String32 => 1,
@@ -1231,6 +1256,7 @@ impl FieldObject {
             | Self::Quaternion
             | Self::Matrix2x3
             | Self::Matrix3x3
+            | Self::Matrix4x3
             | Self::ColorRGB
             | Self::ColorARGB => Some(StaticValue::Float(0.0)),
         }
@@ -1272,6 +1298,7 @@ impl FieldObject {
             FieldObject::Quaternion => true,
             FieldObject::Matrix2x3 => true,
             FieldObject::Matrix3x3 => true,
+            FieldObject::Matrix4x3 => true,
             FieldObject::ColorRGB => true,
             FieldObject::ColorARGB => true,
             FieldObject::Pixel32 => true,
