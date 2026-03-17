@@ -101,7 +101,22 @@
             },
             {
                 "type": "pad",
-                "size": 20
+                "size": 12
+            },
+            {
+                "name": "runtime registration point",
+                "type": "Vector2DInt",
+                "cache_only": true
+            },
+            {
+                "name": "runtime width",
+                "type": "uint16",
+                "cache_only": true
+            },
+            {
+                "name": "runtime height",
+                "type": "uint16",
+                "cache_only": true
             },
             {
                 "name": "encoded stencil",
