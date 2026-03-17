@@ -3308,28 +3308,31 @@
         "type": "struct",
         "fields": [
             {
-                "name": "don't use",
+                "name": "deprecated bsp reference",
                 "type": "TagReference",
                 "exclude": true,
                 "groups": [
                     "scenario_structure_bsp"
-                ]
+                ],
+                "developer_note": "In runtime, this is unused. However the official tools do handle this field, funny enough: If there are no BSP in the structure BSPs array and a BSP is referenced here, then it will get pushed to the BSP array."
             },
             {
-                "name": "won't use",
+                "name": "globals",
                 "type": "TagReference",
-                "exclude": true,
+                "hidden": true,
                 "groups": [
-                    "scenario_structure_bsp"
-                ]
+                    "globals"
+                ],
+                "developer_note": "This is presently an (unused) BSP tag. We're planning to change this to a globals reference to allow scenarios to reference globals instead of hardcoded globals\\globals."
             },
             {
-                "name": "can't use",
+                "name": "deprecated sky reference",
                 "type": "TagReference",
                 "exclude": true,
                 "groups": [
                     "sky"
-                ]
+                ],
+                "developer_note": "This is unused."
             },
             {
                 "name": "skies",
@@ -3664,7 +3667,7 @@
                 }
             },
             {
-                "name": "globals",
+                "name": "script globals",
                 "type": "Reflexive",
                 "struct": "ScenarioGlobal",
                 "read_only": true,
