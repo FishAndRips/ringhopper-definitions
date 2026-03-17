@@ -109,7 +109,7 @@
             {
                 "type": "pad",
                 "size": 8,
-                "comment": "on some (probably older) tags like effects/particles/energy/smoke c generic.particle, this is floats 2.0 and 1.0, but these tags can't be replicated in the HEK"
+                "developer_note": "on some tags like effects/particles/energy/smoke c generic.particle, this is floats 2.0 and 1.0, but these tags can't be replicated"
             },
             {
                 "name": "radius animation",
