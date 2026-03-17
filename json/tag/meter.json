@@ -55,7 +55,9 @@
             },
             {
                 "name": "source sequence index",
-                "type": "uint16"
+                "type": "uint16",
+                "exclude": true,
+                "developer_note": "This is unused. The first bitmap datum is used, ignoring sequences."
             },
             {
                 "type": "pad",
