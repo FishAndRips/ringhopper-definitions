@@ -1287,29 +1287,34 @@
                 "type": "TagReference",
                 "groups": [
                     "bitmap"
-                ]
+                ],
+                "developer_note": "This will be removed later."
             },
             {
                 "name": "shield meter",
                 "type": "TagReference",
                 "groups": [
                     "meter"
-                ]
+                ],
+                "developer_note": "This will be removed later."
             },
             {
                 "name": "shield meter origin",
-                "type": "Vector2DInt"
+                "type": "Vector2DInt",
+                "developer_note": "This will be removed later."
             },
             {
                 "name": "body meter",
                 "type": "TagReference",
                 "groups": [
                     "meter"
-                ]
+                ],
+                "developer_note": "This will be removed later."
             },
             {
                 "name": "body meter origin",
-                "type": "Vector2DInt"
+                "type": "Vector2DInt",
+                "developer_note": "This will be removed later."
             },
             {
                 "name": "night vision on effect",
