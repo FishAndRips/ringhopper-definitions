@@ -23,7 +23,7 @@
         "fields": [
             {
                 "heading": "Meter",
-                "body": "Meter tags appear to be an older implementation of what the unit HUD interface does, except they are directly referenced in the globals tag. They are not used in any engine.\n\nNOTE: If you were looking for the meter shader, you were probably looking for shader_transparent_meter.",
+                "body": "A relic from the days of yore, this tag group is now unused, replaced by unit_hud_interface.\n\nDespite being totally obsolete and only serving to take up precious space in tag data for absolutely no benefit whatsoever, it continues to endure in many a globals tag to this very day, annoying and confusing modders for decades.\n\nWe should all strive to be like the meter tag: to never give up even when everyone else has given up on you.",
                 "type": "editor_section"
             },
             {
@@ -35,7 +35,7 @@
                 "name": "stencil bitmaps",
                 "type": "TagReference",
                 "non_cached": true,
-                "comment": "Don't use this! This gets dereferenced on map build.",
+                "developer_note": "This gets processed into tag data on build and then dereferenced.",
                 "groups": [
                     "bitmap"
                 ]
@@ -44,7 +44,7 @@
                 "name": "source bitmap",
                 "type": "TagReference",
                 "non_cached": true,
-                "comment": "Don't use this! This gets dereferenced on map build.",
+                "developer_note": "This gets processed into tag data on build and then dereferenced.",
                 "groups": [
                     "bitmap"
                 ]
@@ -111,7 +111,7 @@
             }
         ],
         "type": "struct",
-        "comment": "This is probably a leftover from pre-CE development. I don't think this tag does anything in modern CE.",
+        "developer_note": "This tag group is read and processed by the tools, but it's not used in-game.",
         "size": 172
     },
     {
