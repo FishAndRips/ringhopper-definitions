@@ -732,14 +732,14 @@
             {
                 "name": "fog",
                 "read_only": false,
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "reflexive": "fog palette",
                 "struct": "ScenarioStructureBSP"
             },
             {
                 "name": "weather palette",
                 "read_only": false,
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "reflexive": "weather palette",
                 "struct": "ScenarioStructureBSP"
             }

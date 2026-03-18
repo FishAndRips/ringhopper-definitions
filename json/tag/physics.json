@@ -95,7 +95,7 @@
             },
             {
                 "name": "powered mass point",
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "reflexive": "powered mass points",
                 "struct": "Physics"
             },

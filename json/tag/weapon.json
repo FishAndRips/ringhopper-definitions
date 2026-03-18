@@ -368,7 +368,7 @@
             },
             {
                 "name": "magazine",
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "reflexive": "magazines",
                 "struct": "Weapon",
                 "comment": "This is the index of the magazine used for drawing ammunition for this trigger.\nIf no magazine is given (null), then the weapon effectively has an unlimited amount of rounds."

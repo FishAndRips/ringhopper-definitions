@@ -182,7 +182,7 @@
             },
             {
                 "name": "next permutation index",
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "read_only": true,
                 "reflexive": "permutations",
                 "struct": "SoundPitchRange"

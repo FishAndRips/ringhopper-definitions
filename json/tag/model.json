@@ -100,19 +100,19 @@
             },
             {
                 "name": "next sibling node index",
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "reflexive": "nodes",
                 "struct": "Model"
             },
             {
                 "name": "first child node index",
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "reflexive": "nodes",
                 "struct": "Model"
             },
             {
                 "name": "parent node index",
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "reflexive": "nodes",
                 "struct": "Model"
             },
@@ -157,7 +157,7 @@
             },
             {
                 "name": "node index",
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "reflexive": "nodes",
                 "struct": "Model"
             },
@@ -211,31 +211,31 @@
             },
             {
                 "name": "super low",
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "reflexive": "geometries",
                 "struct": "Model"
             },
             {
                 "name": "low",
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "reflexive": "geometries",
                 "struct": "Model"
             },
             {
                 "name": "medium",
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "reflexive": "geometries",
                 "struct": "Model"
             },
             {
                 "name": "high",
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "reflexive": "geometries",
                 "struct": "Model"
             },
             {
                 "name": "super high",
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "reflexive": "geometries",
                 "struct": "Model"
             },
@@ -495,7 +495,7 @@
             },
             {
                 "name": "shader index",
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "reflexive": "shaders",
                 "struct": "Model"
             },

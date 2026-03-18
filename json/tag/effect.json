@@ -148,7 +148,7 @@
             },
             {
                 "name": "location",
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "reflexive": "locations",
                 "struct": "Effect"
             },
@@ -241,7 +241,7 @@
             },
             {
                 "name": "location",
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "reflexive": "locations",
                 "struct": "Effect"
             },
@@ -404,13 +404,13 @@
             },
             {
                 "name": "loop start event",
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "reflexive": "events",
                 "struct": "Effect"
             },
             {
                 "name": "loop stop event",
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "reflexive": "events",
                 "struct": "Effect"
             },

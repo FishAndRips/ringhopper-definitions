@@ -882,6 +882,20 @@ pub enum FieldObject {
     /// Bitwise, this has the same size and alignment as a [FieldObject::U16].
     Index,
 
+    /// Describes a reflexive index.
+    ///
+    /// This has the same data considerations as [Index], but it corresponds to a particular
+    /// reflexive on an ancestor's structs.
+    ///
+    /// And of course, this has the same size and alignment as a [FieldObject::U16].
+    ReflexiveIndex {
+        /// Name of the ancestor's struct.
+        struct_name: String,
+
+        /// Name of the field.
+        reflexive_name: String
+    },
+
     /// Describes an angle, stored as a 32-bit float.
     ///
     /// You can use this to display things as degrees instead of radians.
@@ -1157,7 +1171,7 @@ impl FieldObject {
             | Self::TagID
             | Self::CompressedVector2D
             | Self::CompressedVector3D => 0x4,
-            Self::U16 | Self::I16 | Self::Index | Self::CompressedFloat => 0x2,
+            Self::U16 | Self::I16 | Self::Index | Self::ReflexiveIndex { .. } | Self::CompressedFloat => 0x2,
             Self::U8 | Self::I8 => 0x1,
             Self::Rectangle | Self::Vector2DInt => Self::I16.primitive_size() * self.composite_count(),
             Self::ScenarioScriptNodeValue => 0x4,
@@ -1189,7 +1203,7 @@ impl FieldObject {
             Self::TagID | Self::ID => 1,
             Self::TagGroup => 1,
             Self::F32 | Self::Angle | Self::U32 | Self::Address | Self::I32 | Self::Pixel32 | Self::CompressedVector2D | Self::CompressedVector3D | Self::CompressedFloat => 1,
-            Self::U16 | Self::I16 | Self::Index => 1,
+            Self::U16 | Self::I16 | Self::Index | Self::ReflexiveIndex { .. } => 1,
             Self::U8 | Self::I8 => 1,
             Self::Rectangle => 4,
             Self::Vector2D => 2,
@@ -1235,6 +1249,7 @@ impl FieldObject {
             Self::U8
             | Self::U16
             | Self::Index
+            | Self::ReflexiveIndex { .. }
             | Self::U32
             | Self::Pixel32
             | Self::Reflexive(_) => Some(StaticValue::Uint(0)),
@@ -1303,6 +1318,7 @@ impl FieldObject {
             FieldObject::ColorARGB => true,
             FieldObject::Pixel32 => true,
             FieldObject::String32 => true,
+            FieldObject::ReflexiveIndex { .. } => true,
             FieldObject::ScenarioScriptNodeValue => true,
         })
     }

@@ -390,7 +390,7 @@
         "fields": [
             {
                 "name": "bitmap index",
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "reflexive": "bitmap data",
                 "struct": "Bitmap"
             },
@@ -437,7 +437,7 @@
             },
             {
                 "name": "first bitmap index",
-                "type": "Index",
+                "type": "ReflexiveIndex",
                 "reflexive": "bitmap data",
                 "struct": "Bitmap"
             },
