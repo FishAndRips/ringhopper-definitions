@@ -535,21 +535,23 @@ impl ParsedDefinitions {
                             StructFieldType::Object(FieldObject::Reflexive(r)) => {
                                 self.objects.get(r).unwrap_or_else(|| panic!("{object_name}::{field_name} reflexive refers to object {r} which does not exist"));
                             },
-                            StructFieldType::Object(FieldObject::ReflexiveIndex { struct_name, reflexive_name }) => {
+                            StructFieldType::Object(FieldObject::ReflexiveIndex { struct_name, reflexive_name_display, .. }) => {
                                 let NamedObject::Struct(object) = self.objects.get(struct_name).unwrap_or_else(|| panic!("{object_name}::{field_name} index refers to object {struct_name} which does not exist")) else {
                                     panic!("{object_name}::{field_name} index refers to object {struct_name} which is not a struct")
                                 };
 
-                                let Some(field) = object.fields.iter().find(|i| &i.name == reflexive_name) else {
-                                    panic!("{object_name}::{field_name} index refers to field {struct_name}::{reflexive_name} which is not a struct")
+                                let Some(field) = object.fields.iter().find(|i| &i.name == reflexive_name_display) else {
+                                    panic!("{object_name}::{field_name} index refers to field {struct_name}::{reflexive_name_display} which was not found")
                                 };
 
                                 match field.field_type {
                                     StructFieldType::Object(FieldObject::Reflexive(_)) => {},
                                     _ => {
-                                        panic!("{object_name}::{field_name} index refers to field {struct_name}::{reflexive_name} which is not a reflexive")
+                                        panic!("{object_name}::{field_name} index refers to field {struct_name}::{reflexive_name_display} which is not a reflexive")
                                     }
                                 }
+                                
+                                // TODO: We should make sure that a struct of struct_name is also an ancestor of this object (with however many levels...) 
                             }
                             _ => ()
                         }
@@ -1022,9 +1024,13 @@ impl LoadFromSerdeJSON for FieldObject {
             "String32" => Self::String32,
             "Address" => Self::Address,
             "Index" => Self::Index,
-            "ReflexiveIndex" => Self::ReflexiveIndex {
-                struct_name: oget_str!(object, "struct").to_owned(),
-                reflexive_name: oget_str!(object, "reflexive").to_owned()
+            "ReflexiveIndex" => {
+                let display = oget_str!(object, "reflexive").to_owned();
+                Self::ReflexiveIndex {
+                    struct_name: oget_str!(object, "struct").to_owned(),
+                    reflexive_name_rust: format_for_rust_fields(&display),
+                    reflexive_name_display: display
+                }
             },
             "Vector2DInt" => Self::Vector2DInt,
             "TagID" => Self::TagID,

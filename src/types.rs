@@ -892,8 +892,11 @@ pub enum FieldObject {
         /// Name of the ancestor's struct.
         struct_name: String,
 
-        /// Name of the field.
-        reflexive_name: String
+        /// Display name of the field.
+        reflexive_name_display: String,
+
+        /// snake_case name of the field.
+        reflexive_name_rust: String
     },
 
     /// Describes an angle, stored as a 32-bit float.
