@@ -2031,9 +2031,10 @@
                 "struct": "Scenario"
             },
             {
-                "name": "unknown",
-                "type": "uint16",
-                "little_endian": true
+                "name": "safe flag",
+                "type": "ReflexiveIndex",
+                "reflexive": "cutscene flags",
+                "struct": "Scenario"
             }
         ],
         "size": 8
