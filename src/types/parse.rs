@@ -1014,6 +1014,7 @@ impl LoadFromSerdeJSON for FieldObject {
             "Euler3D" => Self::Euler3D,
             "Plane2D" => Self::Plane2D,
             "Plane3D" => Self::Plane3D,
+            "Rectangle3D" => Self::Rectangle3D,
             "Quaternion" => Self::Quaternion,
             "Matrix2x3" => Self::Matrix2x3,
             "Matrix3x3" => Self::Matrix3x3,

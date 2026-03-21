@@ -1751,32 +1751,56 @@
             {
                 "name": "parameters",
                 "type": "float",
-                "comment": "appears to be zero",
-                "count": 3,
+                "developer_note": "figure out how to make this into a union?",
+                "comments": "fuck you",
+                "count": 15,
                 "hidden": true
-            },
-            {
-                "name": "rotation vector forward",
-                "type": "Vector3D",
-                "compound": true
-            },
-            {
-                "name": "rotation vector up",
-                "type": "Vector3D",
-                "compound": true
-            },
-            {
-                "name": "starting corner",
-                "type": "Vector3D"
-            },
-            {
-                "name": "ending corner offset",
-                "type": "Vector3D"
             }
         ],
         "title": "name",
-        "comment": "original definitions have every float as an individual member called \"parameters\"",
         "size": 96
+    },
+    {
+        "name": "ScenarioTriggerVolumeParametersFixed",
+        "fields": [
+            {
+                "type": "pad",
+                "size": 36
+            },
+            {
+                "name": "rectangle",
+                "type": "Rectangle3D"
+            }
+        ],
+        "type": "struct",
+        "size": 60
+    },
+    {
+        "name": "ScenarioTriggerVolumeParametersRotational",
+        "fields": [
+            {
+                "type": "pad",
+                "size": 12
+            },
+            {
+                "name": "forward",
+                "type": "Vector3D"
+            },
+            {
+                "name": "up",
+                "type": "Vector3D"
+            },
+            {
+                "name": "position",
+                "type": "Vector3D"
+            },
+            {
+                "name": "extent",
+                "type": "Vector3D"
+            }
+        ],
+        "type": "struct",
+        "size": 60
     },
     {
         "name": "ScenarioRecordedAnimation",

@@ -995,6 +995,21 @@ pub enum FieldObject {
     /// ```
     Plane3D,
 
+    /// Describes a 3D box.
+    ///
+    /// Can be represented like this:
+    ///
+    /// ```
+    /// struct Rectangle {
+    ///     x: Bounds<f32>,
+    ///     y: Bounds<f32>,
+    ///     z: Bounds<f32>
+    /// }
+    ///
+    /// struct Bounds<F> { from: F, to: F }
+    /// ```
+    Rectangle3D,
+
     /// Describes an Euler angle
     ///
     /// Can be represented like this:
@@ -1192,6 +1207,7 @@ impl FieldObject {
             | Self::Euler3D
             | Self::ColorARGB => FieldObject::F32.primitive_size() * self.composite_count(),
             Self::String32 => 32,
+            Self::Rectangle3D => 24,
 
             Self::NamedObject(_) => unreachable!()
         }
@@ -1215,6 +1231,7 @@ impl FieldObject {
             Self::Euler3D => 3,
             Self::Plane2D => 3,
             Self::Plane3D => 4,
+            Self::Rectangle3D => 3*2,
             Self::Quaternion => 4,
             Self::Vector2DInt => 2,
             Self::Matrix2x3 => 2 * 3,
@@ -1276,53 +1293,55 @@ impl FieldObject {
             | Self::Matrix3x3
             | Self::Matrix4x3
             | Self::ColorRGB
+            | Self::Rectangle3D
             | Self::ColorARGB => Some(StaticValue::Float(0.0)),
         }
     }
 
     const fn is_const(&self) -> Option<bool> {
         Some(match self {
-            FieldObject::NamedObject(_) => return None,
-            FieldObject::Reflexive(_) => false,
-            FieldObject::TagReference { .. } => false,
-            FieldObject::TagGroup => true,
-            FieldObject::Data => false,
-            FieldObject::BSPVertexData => false,
-            FieldObject::UTF16String => false,
-            FieldObject::FileData => false,
-            FieldObject::F32 => true,
-            FieldObject::U8 => true,
-            FieldObject::U16 => true,
-            FieldObject::U32 => true,
-            FieldObject::I8 => true,
-            FieldObject::I16 => true,
-            FieldObject::I32 => true,
-            FieldObject::TagID => true,
-            FieldObject::ID => true,
-            FieldObject::Index => true,
-            FieldObject::Angle => true,
-            FieldObject::Address => true,
-            FieldObject::Vector2D => true,
-            FieldObject::Vector3D => true,
-            FieldObject::CompressedVector2D => true,
-            FieldObject::CompressedVector3D => true,
-            FieldObject::CompressedFloat => true,
-            FieldObject::Vector2DInt => true,
-            FieldObject::Plane2D => true,
-            FieldObject::Plane3D => true,
-            FieldObject::Euler2D => true,
-            FieldObject::Euler3D => true,
-            FieldObject::Rectangle => true,
-            FieldObject::Quaternion => true,
-            FieldObject::Matrix2x3 => true,
-            FieldObject::Matrix3x3 => true,
-            FieldObject::Matrix4x3 => true,
-            FieldObject::ColorRGB => true,
-            FieldObject::ColorARGB => true,
-            FieldObject::Pixel32 => true,
-            FieldObject::String32 => true,
-            FieldObject::ReflexiveIndex { .. } => true,
-            FieldObject::ScenarioScriptNodeValue => true,
+            Self::NamedObject(_) => return None,
+            Self::Reflexive(_) => false,
+            Self::TagReference { .. } => false,
+            Self::TagGroup => true,
+            Self::Data => false,
+            Self::BSPVertexData => false,
+            Self::UTF16String => false,
+            Self::FileData => false,
+            Self::F32 => true,
+            Self::U8 => true,
+            Self::U16 => true,
+            Self::U32 => true,
+            Self::I8 => true,
+            Self::I16 => true,
+            Self::I32 => true,
+            Self::TagID => true,
+            Self::ID => true,
+            Self::Index => true,
+            Self::Angle => true,
+            Self::Address => true,
+            Self::Vector2D => true,
+            Self::Vector3D => true,
+            Self::CompressedVector2D => true,
+            Self::CompressedVector3D => true,
+            Self::CompressedFloat => true,
+            Self::Vector2DInt => true,
+            Self::Plane2D => true,
+            Self::Plane3D => true,
+            Self::Euler2D => true,
+            Self::Euler3D => true,
+            Self::Rectangle3D => true,
+            Self::Rectangle => true,
+            Self::Quaternion => true,
+            Self::Matrix2x3 => true,
+            Self::Matrix3x3 => true,
+            Self::Matrix4x3 => true,
+            Self::ColorRGB => true,
+            Self::ColorARGB => true,
+            Self::Pixel32 => true,
+            Self::String32 => true,
+            Self::ReflexiveIndex { .. } => true,
+            Self::ScenarioScriptNodeValue => true,
         })
     }
 }
