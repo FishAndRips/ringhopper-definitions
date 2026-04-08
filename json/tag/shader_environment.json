@@ -24,12 +24,8 @@
             "alpha tested",
             "bump map is specular mask",
             "true atmospheric fog",
-            {
-                "name": "use alternate bump attenuation",
-                "supported_engines": [
-                    "mcc-cea"
-                ]
-            }
+            "use alternate bump attenuation",
+            "use alternate normal type blending"
         ],
         "width": 16
     },
